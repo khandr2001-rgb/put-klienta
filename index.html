@@ -3,29 +3,30 @@
 <meta property="og:title" content="Персональные мультики — путь клиента">
 <meta property="og:description" content="14 этапов от рекламного креатива до готового мультика: что происходит, что меряем и где теряем.">
 <meta property="og:type" content="article">
-<meta name="theme-color" content="#B7362A">
+<meta name="theme-color" content="#2F7E8C">
 
 <style>
 :root{
-  --paper:#F4F5F7;
+  --paper:#F4F5F3;
   --card:#FFFFFF;
-  --ink:#16181D;
-  --muted:#5C6270;
-  --faint:#8C93A1;
-  --line:#E2E5EA;
-  --brick:#B7362A;
-  --brick-soft:#F7E6E3;
-  --teal:#0E6B72;
-  --amber:#A9660A;
-  --green:#2C7A3F;
-  --tier1:#E8EBEF;
-  --tier2:#DCE1E7;
-  --tier3:#F3DAD5;
-  --tier4:#E4A79E;
-  --tier5:#B7362A;
-  --tier6:#16181D;
-  --t1fg:#16181D; --t2fg:#16181D; --t3fg:#16181D;
-  --t4fg:#231311; --t5fg:#FFFFFF; --t6fg:#FFFFFF;
+  --ink:#253039;
+  --muted:#5A6B74;
+  --faint:#8B9AA2;
+  --line:#E0E6E5;
+  --brick:#2F7E8C;
+  --brick-soft:#E3EFF1;
+  --deep:#25525C;
+  --teal:#C06A2C;
+  --amber:#A9770F;
+  --green:#3E7F5C;
+  --tier1:#ECEFEF;
+  --tier2:#DDE6E7;
+  --tier3:#C6DBDE;
+  --tier4:#9DC2C9;
+  --tier5:#5C97A3;
+  --tier6:#2F6B78;
+  --t1fg:#253039; --t2fg:#253039; --t3fg:#1E3239;
+  --t4fg:#16292F; --t5fg:#FFFFFF; --t6fg:#FFFFFF;
 
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
@@ -35,32 +36,45 @@
 }
 @media (prefers-color-scheme:dark){
   :root{
-    --paper:#101216; --card:#171A20; --ink:#ECEEF2; --muted:#A2A9B7; --faint:#79808F;
-    --line:#262B34; --brick:#E0705F; --brick-soft:#2C1A17;
-    --teal:#5CC2C9; --amber:#D9A048; --green:#68C07E;
-    --tier1:#1D2128; --tier2:#242A33; --tier3:#3A241F; --tier4:#7A3428;
-    --tier5:#C8412F; --tier6:#ECEEF2;
-    --t1fg:#ECEEF2; --t2fg:#ECEEF2; --t3fg:#F0D9D3; --t4fg:#FFF1ED;
-    --t5fg:#FFFFFF; --t6fg:#101216;
+    --paper:#12161A; --card:#181D22; --ink:#E9EDEF; --muted:#9FAEB6; --faint:#76858D;
+    --line:#252D33; --brick:#5FB3C2; --brick-soft:#152B31; --deep:#1B333A;
+    --teal:#E09A5A; --amber:#D3A44B; --green:#6FBF92;
+    --tier1:#1B2126; --tier2:#222B31; --tier3:#263A40; --tier4:#31555E;
+    --tier5:#3E7F8C; --tier6:#8FCBD6;
+    --t1fg:#E9EDEF; --t2fg:#E9EDEF; --t3fg:#D6E7EA; --t4fg:#EAF5F7;
+    --t5fg:#FFFFFF; --t6fg:#12161A;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#101216; --card:#171A20; --ink:#ECEEF2; --muted:#A2A9B7; --faint:#79808F;
-  --line:#262B34; --brick:#E0705F; --brick-soft:#2C1A17;
-  --teal:#5CC2C9; --amber:#D9A048; --green:#68C07E;
-  --tier1:#1D2128; --tier2:#242A33; --tier3:#3A241F; --tier4:#7A3428;
-  --tier5:#C8412F; --tier6:#ECEEF2;
-  --t1fg:#ECEEF2; --t2fg:#ECEEF2; --t3fg:#F0D9D3; --t4fg:#FFF1ED;
-  --t5fg:#FFFFFF; --t6fg:#101216;
+    --paper:#12161A; --card:#181D22; --ink:#E9EDEF; --muted:#9FAEB6; --faint:#76858D;
+  --line:#252D33; --brick:#5FB3C2; --brick-soft:#152B31; --deep:#1B333A;
+  --teal:#E09A5A; --amber:#D3A44B; --green:#6FBF92;
+  --tier1:#1B2126; --tier2:#222B31; --tier3:#263A40; --tier4:#31555E;
+  --tier5:#3E7F8C; --tier6:#8FCBD6;
+  --t1fg:#E9EDEF; --t2fg:#E9EDEF; --t3fg:#D6E7EA; --t4fg:#EAF5F7;
+  --t5fg:#FFFFFF; --t6fg:#12161A;
 }
 :root[data-theme="light"]{
-  --paper:#F4F5F7; --card:#FFFFFF; --ink:#16181D; --muted:#5C6270; --faint:#8C93A1;
-  --line:#E2E5EA; --brick:#B7362A; --brick-soft:#F7E6E3;
-  --teal:#0E6B72; --amber:#A9660A; --green:#2C7A3F;
-  --tier1:#E8EBEF; --tier2:#DCE1E7; --tier3:#F3DAD5; --tier4:#E4A79E;
-  --tier5:#B7362A; --tier6:#16181D;
-  --t1fg:#16181D; --t2fg:#16181D; --t3fg:#16181D;
-  --t4fg:#231311; --t5fg:#FFFFFF; --t6fg:#FFFFFF;
+  --paper:#F4F5F3;
+  --card:#FFFFFF;
+  --ink:#253039;
+  --muted:#5A6B74;
+  --faint:#8B9AA2;
+  --line:#E0E6E5;
+  --brick:#2F7E8C;
+  --brick-soft:#E3EFF1;
+  --deep:#25525C;
+  --teal:#C06A2C;
+  --amber:#A9770F;
+  --green:#3E7F5C;
+  --tier1:#ECEFEF;
+  --tier2:#DDE6E7;
+  --tier3:#C6DBDE;
+  --tier4:#9DC2C9;
+  --tier5:#5C97A3;
+  --tier6:#2F6B78;
+  --t1fg:#253039; --t2fg:#253039; --t3fg:#1E3239;
+  --t4fg:#16292F; --t5fg:#FFFFFF; --t6fg:#FFFFFF;
 }
 
 *{box-sizing:border-box}
@@ -242,11 +256,11 @@ h2{
 /* callout */
 .call{
   border-radius:16px; padding:22px 24px; margin-top:22px;
-  background:var(--ink); color:var(--paper);
+  background:var(--deep); color:#F2F7F7;
 }
 .call .eyebrow{color:var(--brick)}
 .call h3{margin:0 0 9px; font-size:19px; font-weight:700; letter-spacing:-.02em}
-.call p{margin:0; font-size:15px; line-height:1.58; opacity:.82}
+.call p{margin:0; font-size:15px; line-height:1.58; opacity:.86}
 .call.soft{background:var(--brick-soft); color:var(--ink)}
 .call.soft p{opacity:1; color:var(--muted)}
 
@@ -265,7 +279,7 @@ h2{
 .step .no{
   font-family:var(--mono); font-size:12.5px; font-weight:700;
   width:27px; height:27px; border-radius:8px; flex:none;
-  display:grid; place-items:center; background:var(--ink); color:var(--paper);
+  display:grid; place-items:center; background:var(--deep); color:#F2F7F7;
 }
 .step.hot .no{background:var(--brick); color:#fff}
 .step .hd b{font-size:16.5px; letter-spacing:-.015em}
@@ -306,12 +320,12 @@ td:first-child{color:var(--ink); font-weight:600; white-space:nowrap}
 
 /* tariff */
 .tar{border-radius:16px; padding:21px 22px; border:1px solid var(--line); background:var(--card)}
-.tar.hot{background:var(--ink); border-color:var(--ink); color:var(--paper)}
+.tar.hot{background:var(--deep); border-color:var(--deep); color:#F2F7F7}
 .tar .eyebrow{color:var(--faint)}
 .tar.hot .eyebrow{color:var(--brick)}
 .tar h3{margin:6px 0 10px; font-size:19px; font-weight:750; letter-spacing:-.02em}
 .tar p{margin:0; font-size:14.5px; color:var(--muted); line-height:1.55}
-.tar.hot p{color:color-mix(in srgb, var(--paper) 74%, transparent)}
+.tar.hot p{color:color-mix(in srgb, #F2F7F7 78%, transparent)}
 
 /* decisions */
 .dec{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); margin-top:24px}
