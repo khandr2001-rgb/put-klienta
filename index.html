@@ -3,30 +3,30 @@
 <meta property="og:title" content="Персональные мультики — путь клиента">
 <meta property="og:description" content="14 этапов от рекламного креатива до готового мультика: что происходит, что меряем и где теряем.">
 <meta property="og:type" content="article">
-<meta name="theme-color" content="#2F7E8C">
+<meta name="theme-color" content="#2A63A8">
 
 <style>
 :root{
-  --paper:#F4F5F3;
+  --paper:#F5F5F1;
   --card:#FFFFFF;
-  --ink:#253039;
-  --muted:#5A6B74;
-  --faint:#8B9AA2;
-  --line:#E0E6E5;
-  --brick:#2F7E8C;
-  --brick-soft:#E3EFF1;
-  --deep:#25525C;
-  --teal:#C06A2C;
+  --ink:#22303C;
+  --muted:#586773;
+  --faint:#8A99A5;
+  --line:#E3E5E0;
+  --brick:#2A63A8;
+  --brick-soft:#E6EEF8;
+  --deep:#1F4C7A;
+  --teal:#A9770F;
   --amber:#A9770F;
-  --green:#3E7F5C;
-  --tier1:#ECEFEF;
-  --tier2:#DDE6E7;
-  --tier3:#C6DBDE;
-  --tier4:#9DC2C9;
-  --tier5:#5C97A3;
-  --tier6:#2F6B78;
-  --t1fg:#253039; --t2fg:#253039; --t3fg:#1E3239;
-  --t4fg:#16292F; --t5fg:#FFFFFF; --t6fg:#FFFFFF;
+  --green:#2F7A52;
+  --tier1:#E6EEF8;
+  --tier2:#C9DDF2;
+  --tier3:#FCEFC7;
+  --tier4:#F5D480;
+  --tier5:#7CBA95;
+  --tier6:#2F7A52;
+  --t1fg:#22303C; --t2fg:#1B2C3D; --t3fg:#3D3211;
+  --t4fg:#3D3211; --t5fg:#12301F; --t6fg:#FFFFFF;
 
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
@@ -36,45 +36,45 @@
 }
 @media (prefers-color-scheme:dark){
   :root{
-    --paper:#12161A; --card:#181D22; --ink:#E9EDEF; --muted:#9FAEB6; --faint:#76858D;
-    --line:#252D33; --brick:#5FB3C2; --brick-soft:#152B31; --deep:#1B333A;
-    --teal:#E09A5A; --amber:#D3A44B; --green:#6FBF92;
-    --tier1:#1B2126; --tier2:#222B31; --tier3:#263A40; --tier4:#31555E;
-    --tier5:#3E7F8C; --tier6:#8FCBD6;
-    --t1fg:#E9EDEF; --t2fg:#E9EDEF; --t3fg:#D6E7EA; --t4fg:#EAF5F7;
-    --t5fg:#FFFFFF; --t6fg:#12161A;
+    --paper:#101519; --card:#171D23; --ink:#E8EDF1; --muted:#9DACB8; --faint:#75848F;
+    --line:#242C33; --brick:#6BA8E8; --brick-soft:#152537; --deep:#17324D;
+    --teal:#E0B054; --amber:#E0B054; --green:#6FC08E;
+    --tier1:#1A222B; --tier2:#22303F; --tier3:#3A3520; --tier4:#57492A;
+    --tier5:#2E6647; --tier6:#7FC79B;
+    --t1fg:#E8EDF1; --t2fg:#DCE8F5; --t3fg:#F0E4C2; --t4fg:#FBF1D8;
+    --t5fg:#FFFFFF; --t6fg:#101519;
   }
 }
 :root[data-theme="dark"]{
-    --paper:#12161A; --card:#181D22; --ink:#E9EDEF; --muted:#9FAEB6; --faint:#76858D;
-  --line:#252D33; --brick:#5FB3C2; --brick-soft:#152B31; --deep:#1B333A;
-  --teal:#E09A5A; --amber:#D3A44B; --green:#6FBF92;
-  --tier1:#1B2126; --tier2:#222B31; --tier3:#263A40; --tier4:#31555E;
-  --tier5:#3E7F8C; --tier6:#8FCBD6;
-  --t1fg:#E9EDEF; --t2fg:#E9EDEF; --t3fg:#D6E7EA; --t4fg:#EAF5F7;
-  --t5fg:#FFFFFF; --t6fg:#12161A;
+    --paper:#101519; --card:#171D23; --ink:#E8EDF1; --muted:#9DACB8; --faint:#75848F;
+  --line:#242C33; --brick:#6BA8E8; --brick-soft:#152537; --deep:#17324D;
+  --teal:#E0B054; --amber:#E0B054; --green:#6FC08E;
+  --tier1:#1A222B; --tier2:#22303F; --tier3:#3A3520; --tier4:#57492A;
+  --tier5:#2E6647; --tier6:#7FC79B;
+  --t1fg:#E8EDF1; --t2fg:#DCE8F5; --t3fg:#F0E4C2; --t4fg:#FBF1D8;
+  --t5fg:#FFFFFF; --t6fg:#101519;
 }
 :root[data-theme="light"]{
-  --paper:#F4F5F3;
+  --paper:#F5F5F1;
   --card:#FFFFFF;
-  --ink:#253039;
-  --muted:#5A6B74;
-  --faint:#8B9AA2;
-  --line:#E0E6E5;
-  --brick:#2F7E8C;
-  --brick-soft:#E3EFF1;
-  --deep:#25525C;
-  --teal:#C06A2C;
+  --ink:#22303C;
+  --muted:#586773;
+  --faint:#8A99A5;
+  --line:#E3E5E0;
+  --brick:#2A63A8;
+  --brick-soft:#E6EEF8;
+  --deep:#1F4C7A;
+  --teal:#A9770F;
   --amber:#A9770F;
-  --green:#3E7F5C;
-  --tier1:#ECEFEF;
-  --tier2:#DDE6E7;
-  --tier3:#C6DBDE;
-  --tier4:#9DC2C9;
-  --tier5:#5C97A3;
-  --tier6:#2F6B78;
-  --t1fg:#253039; --t2fg:#253039; --t3fg:#1E3239;
-  --t4fg:#16292F; --t5fg:#FFFFFF; --t6fg:#FFFFFF;
+  --green:#2F7A52;
+  --tier1:#E6EEF8;
+  --tier2:#C9DDF2;
+  --tier3:#FCEFC7;
+  --tier4:#F5D480;
+  --tier5:#7CBA95;
+  --tier6:#2F7A52;
+  --t1fg:#22303C; --t2fg:#1B2C3D; --t3fg:#3D3211;
+  --t4fg:#3D3211; --t5fg:#12301F; --t6fg:#FFFFFF;
 }
 
 *{box-sizing:border-box}
@@ -146,7 +146,7 @@ h1 em{font-style:normal; color:var(--brick); display:block}
   line-height:1; font-variant-numeric:tabular-nums;
 }
 .stat span{display:block; margin-top:12px; font-size:14px; color:var(--muted); line-height:1.45}
-.s1 b{color:var(--brick)} .s2 b{color:var(--teal)} .s3 b{color:var(--amber)} .s4 b{color:var(--green)}
+.s1 b{color:var(--brick)} .s2 b{color:var(--amber)} .s3 b{color:var(--green)} .s4 b{color:var(--brick)}
 
 /* ---------- sections ---------- */
 section{padding:clamp(46px,7vw,78px) 0 0}
