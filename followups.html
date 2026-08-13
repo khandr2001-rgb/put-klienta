@@ -1,0 +1,591 @@
+<title>Фоллоу-апы — что делать с теми, кто замолчал</title>
+<meta name="description" content="Четыре касания по каждой точке отказа: дословные тексты, тайминги и правило, где можно тратить генерацию на подогрев.">
+<meta property="og:title" content="Фоллоу-апы — что делать с теми, кто замолчал">
+<meta property="og:description" content="Пять точек отказа, по четыре касания на каждую. Дословные тексты и тайминги.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#2A63A8">
+<style>
+.tl{display:flex; gap:10px; margin-top:24px; flex-wrap:wrap}
+.tl div{flex:1 1 190px; background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:17px 18px}
+.tl b{display:block; font-size:22px; font-weight:800; letter-spacing:-.02em; color:var(--brick)}
+.tl span{display:block; margin-top:7px; font-size:13.5px; color:var(--muted); line-height:1.45}
+.point{background:var(--card); border:1px solid var(--line); border-radius:18px;
+  padding:22px 24px; margin-top:16px}
+.point .hd{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:4px}
+.point .lt{font-family:var(--mono); font-size:12px; font-weight:700; color:#fff;
+  background:var(--brick); border-radius:6px; padding:3px 9px}
+.point h3{margin:0; font-size:19px; font-weight:750; letter-spacing:-.018em}
+.point .cap{margin:6px 0 0; font-size:14.5px; color:var(--muted); line-height:1.5}
+.point.key{border-color:color-mix(in srgb, var(--brick) 45%, var(--line))}
+.step{display:grid; grid-template-columns:112px 1fr; gap:16px; padding:13px 0;
+  border-top:1px solid var(--line)}
+.step:first-of-type{margin-top:14px}
+.when{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--brick);
+  font-weight:700; padding-top:3px}
+.say{background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:11px 14px; font-size:14.8px; line-height:1.5}
+.say p{margin:0} .say p + p{margin-top:6px}
+.say em{font-style:normal; display:block; margin-top:8px; font-family:var(--mono);
+  font-size:10.5px; letter-spacing:.1em; color:var(--amber); font-weight:700}
+@media(max-width:640px){.step{grid-template-columns:1fr; gap:6px}}
+.rule{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin-top:22px}
+.rule div{border-radius:14px; padding:18px 19px; background:var(--card); border:1px solid var(--line)}
+.rule .yes{border-color:color-mix(in srgb, var(--green) 40%, var(--line))}
+.rule b{display:block; font-size:16px; margin-bottom:6px; letter-spacing:-.015em}
+.rule .yes b{color:var(--green)} .rule .no b{color:var(--amber)}
+.rule p{margin:0; font-size:14px; color:var(--muted); line-height:1.5}
+</style>
+<style>
+:root{
+  --paper:#F5F5F1;
+  --card:#FFFFFF;
+  --ink:#22303C;
+  --muted:#586773;
+  --faint:#8A99A5;
+  --line:#E3E5E0;
+  --brick:#2A63A8;
+  --brick-soft:#E6EEF8;
+  --deep:#1F4C7A;
+  --teal:#A9770F;
+  --amber:#A9770F;
+  --green:#2F7A52;
+  --tier1:#E6EEF8;
+  --tier2:#C9DDF2;
+  --tier3:#FCEFC7;
+  --tier4:#F5D480;
+  --tier5:#7CBA95;
+  --tier6:#2F7A52;
+  --t1fg:#22303C; --t2fg:#1B2C3D; --t3fg:#3D3211;
+  --t4fg:#3D3211; --t5fg:#12301F; --t6fg:#FFFFFF;
+
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+
+  --wrap:1080px;
+  --pad:clamp(18px,4vw,40px);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#101519; --card:#171D23; --ink:#E8EDF1; --muted:#9DACB8; --faint:#75848F;
+    --line:#242C33; --brick:#6BA8E8; --brick-soft:#152537; --deep:#17324D;
+    --teal:#E0B054; --amber:#E0B054; --green:#6FC08E;
+    --tier1:#1A222B; --tier2:#22303F; --tier3:#3A3520; --tier4:#57492A;
+    --tier5:#2E6647; --tier6:#7FC79B;
+    --t1fg:#E8EDF1; --t2fg:#DCE8F5; --t3fg:#F0E4C2; --t4fg:#FBF1D8;
+    --t5fg:#FFFFFF; --t6fg:#101519;
+  }
+}
+:root[data-theme="dark"]{
+    --paper:#101519; --card:#171D23; --ink:#E8EDF1; --muted:#9DACB8; --faint:#75848F;
+  --line:#242C33; --brick:#6BA8E8; --brick-soft:#152537; --deep:#17324D;
+  --teal:#E0B054; --amber:#E0B054; --green:#6FC08E;
+  --tier1:#1A222B; --tier2:#22303F; --tier3:#3A3520; --tier4:#57492A;
+  --tier5:#2E6647; --tier6:#7FC79B;
+  --t1fg:#E8EDF1; --t2fg:#DCE8F5; --t3fg:#F0E4C2; --t4fg:#FBF1D8;
+  --t5fg:#FFFFFF; --t6fg:#101519;
+}
+:root[data-theme="light"]{
+  --paper:#F5F5F1;
+  --card:#FFFFFF;
+  --ink:#22303C;
+  --muted:#586773;
+  --faint:#8A99A5;
+  --line:#E3E5E0;
+  --brick:#2A63A8;
+  --brick-soft:#E6EEF8;
+  --deep:#1F4C7A;
+  --teal:#A9770F;
+  --amber:#A9770F;
+  --green:#2F7A52;
+  --tier1:#E6EEF8;
+  --tier2:#C9DDF2;
+  --tier3:#FCEFC7;
+  --tier4:#F5D480;
+  --tier5:#7CBA95;
+  --tier6:#2F7A52;
+  --t1fg:#22303C; --t2fg:#1B2C3D; --t3fg:#3D3211;
+  --t4fg:#3D3211; --t5fg:#12301F; --t6fg:#FFFFFF;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 var(--pad)}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  max-width:var(--wrap); margin:0 auto; padding:11px var(--pad);
+  display:flex; align-items:center; gap:22px;
+}
+.brand{font-weight:800; letter-spacing:-.02em; font-size:15px; white-space:nowrap}
+.nav-links{
+  display:flex; gap:16px; overflow-x:auto; scrollbar-width:none;
+  border-left:1px solid var(--line); padding-left:22px;
+}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{
+  font-family:var(--mono); font-size:12px; letter-spacing:.02em;
+  color:var(--muted); text-decoration:none; white-space:nowrap; padding:3px 0;
+  border-bottom:1.5px solid transparent;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.on{color:var(--brick); border-bottom-color:var(--brick)}
+.nav-links a:focus-visible{outline:2px solid var(--brick); outline-offset:3px; border-radius:2px}
+.nav-links a i{font-style:normal; color:var(--faint); margin-right:5px}
+.nav-links a.on i{color:var(--brick)}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(48px,9vw,96px) 0 clamp(28px,5vw,44px)}
+.pill{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
+  color:var(--brick); border:1px solid color-mix(in srgb, var(--brick) 32%, transparent);
+  background:var(--brick-soft); border-radius:100px; padding:7px 15px;
+}
+.pill b{width:6px; height:6px; border-radius:50%; background:var(--brick); display:block}
+h1{
+  font-size:clamp(34px,6.2vw,62px); line-height:1.04; font-weight:800;
+  letter-spacing:-.035em; margin:26px 0 0; text-wrap:balance;
+}
+h1 em{font-style:normal; color:var(--brick); display:block}
+.lede{
+  font-size:clamp(17px,2.1vw,21px); line-height:1.55; color:var(--muted);
+  max-width:62ch; margin:24px 0 0;
+}
+
+/* ---------- stats ---------- */
+.stats{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:14px; margin:clamp(32px,5vw,52px) 0 0;
+}
+.stat{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:22px 22px 20px;
+}
+.stat b{
+  display:block; font-size:38px; font-weight:800; letter-spacing:-.03em;
+  line-height:1; font-variant-numeric:tabular-nums;
+}
+.stat span{display:block; margin-top:12px; font-size:14px; color:var(--muted); line-height:1.45}
+.s1 b{color:var(--brick)} .s2 b{color:var(--amber)} .s3 b{color:var(--green)} .s4 b{color:var(--brick)}
+
+/* ---------- sections ---------- */
+section{padding:clamp(46px,7vw,78px) 0 0}
+.snum{
+  font-family:var(--mono); font-size:12px; letter-spacing:.16em;
+  color:var(--faint); display:block; margin-bottom:10px;
+}
+h2{
+  font-size:clamp(25px,3.6vw,36px); font-weight:800; letter-spacing:-.028em;
+  line-height:1.14; margin:0; text-wrap:balance;
+}
+.sub{color:var(--muted); max-width:66ch; margin:14px 0 0; font-size:16px}
+.blk{margin-top:26px}
+
+.eyebrow{
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+  color:var(--faint); display:block; margin-bottom:7px;
+}
+
+/* cards */
+.grid{display:grid; gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:16px; padding:20px 21px;
+}
+.card h3{margin:0 0 8px; font-size:17.5px; font-weight:700; letter-spacing:-.015em}
+.card p{margin:0; color:var(--muted); font-size:14.6px; line-height:1.55}
+.card p + p{margin-top:9px}
+
+/* stages */
+.funnel{display:flex; flex-direction:column; align-items:center; gap:4px; margin-top:26px}
+.tier{
+  border-radius:10px; padding:9px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  flex-wrap:wrap;
+}
+.tier .tn{font-size:14px; font-weight:700; letter-spacing:-.01em}
+.tier .ts{font-size:12.5px; opacity:.72; text-align:right; white-space:nowrap}
+.tier .ts u{text-decoration:none; font-weight:700; opacity:1}
+.f1{background:var(--tier1); color:var(--t1fg)}
+.f2{background:var(--tier2); color:var(--t2fg)}
+.f3{background:var(--tier3); color:var(--t3fg)}
+.f4{background:var(--tier4); color:var(--t4fg)}
+.f5{background:var(--tier5); color:var(--t5fg)}
+.f6{background:var(--tier6); color:var(--t6fg)}
+.tier .tn i{font-style:normal; opacity:.55; margin-right:11px; font-size:11.5px}
+.tier .ts.k{opacity:1; font-weight:700}
+.legend{display:flex; gap:5px; margin-top:14px; flex-wrap:wrap}
+.legend span{flex:1 1 auto; min-width:104px; text-align:center; padding:5px 8px; border-radius:8px;
+  font-family:var(--mono); font-size:10px; letter-spacing:.05em; font-weight:700; white-space:nowrap}
+@media(max-width:720px){
+  .tier{width:100%!important; flex-direction:column; align-items:flex-start; gap:4px}
+  .tier .ts{text-align:left}
+}
+.fnote{
+  margin-top:18px; font-size:14px; color:var(--muted);
+  display:flex; gap:10px; align-items:flex-start;
+}
+.fnote b{
+  flex:none; width:9px; height:9px; border-radius:50%; background:var(--brick);
+  margin-top:7px;
+}
+
+/* detailed stages */
+.sblock{margin-top:34px}
+.bhead{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; color:var(--faint);
+  padding-bottom:10px;
+}
+.bhead u{text-decoration:none; width:10px; height:10px; border-radius:3px; display:block}
+.bh1 u{background:var(--tier1)} .bh2 u{background:var(--tier2)} .bh3 u{background:var(--tier3)}
+.bh4 u{background:var(--tier4)} .bh5 u{background:var(--tier5)} .bh6 u{background:var(--tier6)}
+.stage{
+  display:grid; grid-template-columns:220px 1fr; gap:20px;
+  padding:17px 0; border-top:1px solid var(--line);
+}
+.stage.key{border-top-color:color-mix(in srgb, var(--brick) 45%, var(--line))}
+.stage .lhs{display:flex; gap:11px; align-items:flex-start}
+.stage .num{
+  font-family:var(--mono); font-size:12px; font-weight:700; flex:none;
+  width:25px; height:25px; border-radius:7px; display:grid; place-items:center;
+  background:var(--line); color:var(--muted); margin-top:1px;
+}
+.stage.key .num{background:var(--brick); color:#fff}
+.stage .nm{font-size:16.5px; font-weight:700; letter-spacing:-.015em; line-height:1.3}
+.stage .nm i{
+  display:block; font-style:normal; font-family:var(--mono); font-size:10.5px;
+  letter-spacing:.12em; color:var(--brick); margin-top:4px;
+}
+.stage .rhs{display:grid; gap:9px}
+.f{display:grid; grid-template-columns:132px 1fr; gap:14px; font-size:14.6px; line-height:1.5}
+.f b{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; font-weight:500;
+  color:var(--faint); padding-top:3px;
+}
+.f span{color:var(--muted)}
+.f.loss span{color:var(--amber)}
+@media(max-width:760px){
+  .stage{grid-template-columns:1fr; gap:12px}
+  .f{grid-template-columns:1fr; gap:2px}
+  .f b{padding-top:0}
+}
+
+/* callout */
+.call{
+  border-radius:16px; padding:22px 24px; margin-top:22px;
+  background:var(--deep); color:#F2F7F7;
+}
+.call .eyebrow{color:var(--brick)}
+.call h3{margin:0 0 9px; font-size:19px; font-weight:700; letter-spacing:-.02em}
+.call p{margin:0; font-size:15px; line-height:1.58; opacity:.86}
+.call.soft{background:var(--brick-soft); color:var(--ink)}
+.call.soft p{opacity:1; color:var(--muted)}
+
+/* quote */
+.quote{
+  margin:22px 0 0; padding:0 0 0 20px; border-left:3px solid var(--brick);
+  font-size:19px; line-height:1.5; letter-spacing:-.012em;
+}
+.quote span{display:block; margin-top:9px; font-family:var(--mono);
+  font-size:11.5px; letter-spacing:.13em; color:var(--faint)}
+
+/* chat */
+.chat{display:flex; flex-direction:column; gap:12px; margin-top:22px}
+.step{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:19px 21px}
+.step .hd{display:flex; align-items:center; gap:11px; margin-bottom:12px}
+.step .no{
+  font-family:var(--mono); font-size:12.5px; font-weight:700;
+  width:27px; height:27px; border-radius:8px; flex:none;
+  display:grid; place-items:center; background:var(--deep); color:#F2F7F7;
+}
+.step.hot .no{background:var(--brick); color:#fff}
+.step .hd b{font-size:16.5px; letter-spacing:-.015em}
+.bub{
+  background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:13px 15px; font-size:15px; line-height:1.55;
+}
+.bub p{margin:0}
+.bub p + p{margin-top:7px}
+.step .why{margin:11px 0 0; font-size:14px; color:var(--muted)}
+.step .why em{font-style:normal; font-family:var(--mono); font-size:10.5px;
+  letter-spacing:.13em; color:var(--brick); margin-right:8px}
+
+/* table */
+.tbl{overflow-x:auto; margin-top:22px; border:1px solid var(--line);
+  border-radius:14px; background:var(--card)}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:14.5px}
+th{
+  text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+  color:var(--faint); font-weight:500; padding:13px 16px;
+  border-bottom:1px solid var(--line); white-space:nowrap;
+}
+td{padding:12px 16px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--muted)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink); font-weight:600; white-space:nowrap}
+
+/* lists */
+.marks{list-style:none; padding:0; margin:18px 0 0; display:flex;
+  flex-direction:column; gap:11px}
+.marks li{display:flex; gap:12px; font-size:15px; line-height:1.55; color:var(--muted)}
+.marks li i{
+  font-style:normal; font-family:var(--mono); font-weight:700; font-size:14px;
+  flex:none; width:20px; color:var(--brick);
+}
+.marks.ok li i{color:var(--green)}
+.marks.warn li i{color:var(--amber)}
+.marks li b{color:var(--ink); font-weight:650}
+
+/* tariff */
+.tar{border-radius:16px; padding:21px 22px; border:1px solid var(--line); background:var(--card)}
+.tar.hot{background:var(--deep); border-color:var(--deep); color:#F2F7F7}
+.tar .eyebrow{color:var(--faint)}
+.tar.hot .eyebrow{color:var(--brick)}
+.tar h3{margin:6px 0 10px; font-size:19px; font-weight:750; letter-spacing:-.02em}
+.tar p{margin:0; font-size:14.5px; color:var(--muted); line-height:1.55}
+.tar.hot p{color:color-mix(in srgb, #F2F7F7 78%, transparent)}
+
+/* decisions */
+.dec{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); margin-top:24px}
+.dec div{display:flex; gap:13px; align-items:flex-start}
+.dec .n{
+  font-family:var(--mono); font-size:12px; font-weight:700; flex:none;
+  width:25px; height:25px; border-radius:50%; display:grid; place-items:center;
+  background:var(--brick); color:#fff; margin-top:2px;
+}
+.dec b{display:block; font-size:16px; letter-spacing:-.015em}
+.dec span{display:block; font-size:14.4px; color:var(--muted); margin-top:3px; line-height:1.5}
+
+footer{
+  margin-top:clamp(56px,8vw,92px); padding:26px 0 46px;
+  border-top:1px solid var(--line); color:var(--faint); font-size:13.5px;
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style><nav class="nav">
+  <div class="nav-in">
+    <div class="brand">Персональные мультики</div>
+    <div class="nav-links">
+      <a href="/"><i>←</i>Путь клиента</a>
+      <a href="/simulyaciya.html"><i>·</i>Симуляция</a>
+      <a href="#pr"><i>01</i>Принцип</a>
+      <a href="#points"><i>02</i>Пять точек отказа</a>
+      <a href="#money"><i>03</i>Где тратим генерацию</a>
+      <a href="#stop"><i>04</i>Когда прекращаем</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="pill"><b></b>ФОЛЛОУ-АПЫ</span>
+    <h1>Что делать с теми,<em>кто замолчал</em></h1>
+    <p class="lede">Сейчас человек, дошедший до переписки и остановившийся, просто теряется.
+      Это самая дешёвая аудитория из всех, что у нас есть: за неё уже заплачено,
+      и она уже что-то выбрала.</p>
+  </header>
+
+  <section id="pr">
+    <span class="snum">01</span>
+    <h2>Принцип: догонять быстро и разным</h2>
+    <p class="sub">Две вещи определяют всё остальное.</p>
+
+    <div class="grid g2 blk">
+      <div class="card">
+        <h3>Эмоция угасает за минуты</h3>
+        <p>Человек листал ленту, зацепился, кликнул. Через полчаса он уже в другом контексте
+          и про нас не помнит. Поэтому первое касание — почти сразу, пока настроение то же.</p>
+      </div>
+      <div class="card">
+        <h3>Чем дальше дошёл, тем другой рычаг</h3>
+        <p>Тому, кто не отдал фото, нужно снять страх. Тому, кто увидел кадр и молчит —
+          усилить желание. Тому, кто увидел цену — дать повод решиться сегодня.
+          Одинаковые напоминания всем не работают.</p>
+      </div>
+    </div>
+
+    <div class="tl">
+      <div><b>1 минута</b><span>Пока эмоция жива. Снимаем конкретное препятствие,
+        не давим.</span></div>
+      <div><b>40 минут</b><span>Показываем чужой результат. Здесь же единственный
+        платный подогрев.</span></div>
+      <div><b>3 часа</b><span>Заходим через дату. «К какому числу нужно?» —
+        вопрос, на который отвечают.</span></div>
+      <div><b>Следующий день</b><span>Мягкий выход. Говорим, что всё сохранено
+        и начинать заново не придётся.</span></div>
+    </div>
+  </section>
+
+  <section id="points">
+    <span class="snum">02</span>
+    <h2>Пять точек отказа</h2>
+    <p class="sub">По четыре касания на каждую. Тексты дословные, можно отдавать в разработку.</p>
+
+    <div class="point">
+      <div class="hd"><span class="lt">A</span><h3>Зашёл в бота и не начал</h3></div>
+      <p class="cap">Перешёл с сайта, но не ответил на первый вопрос. Самая холодная группа,
+        но мы уже знаем, что он выбрал.</p>
+      <div class="step"><div class="when">1 МИНУТА</div><div class="say">
+        <p>Вижу, вы выбрали Roblox, карту «Побег от цунами».</p>
+        <p>Осталось одно фото — и покажу, как ваш ребёнок будет выглядеть внутри.
+          Платить ничего не нужно.</p></div></div>
+      <div class="step"><div class="when">40 МИНУТ</div><div class="say">
+        <p>Показать, как получается у других? Вот два ролика по этой же карте.</p>
+        <em>ПРИКЛАДЫВАЕМ ДВА ГОТОВЫХ ПРИМЕРА ИЗ БИБЛИОТЕКИ</em></div></div>
+      <div class="step"><div class="when">3 ЧАСА</div><div class="say">
+        <p>Если сейчас неудобно — скажите, к какой дате нужно, и я напомню сам.</p></div></div>
+      <div class="step"><div class="when">СЛЕДУЮЩИЙ ДЕНЬ</div><div class="say">
+        <p>Оставлю пример здесь — вдруг пригодится.</p>
+        <p>Захотите вернуться, просто пришлите фото. Всё, что вы выбрали, я помню.</p></div></div>
+    </div>
+
+    <div class="point key">
+      <div class="hd"><span class="lt">B</span><h3>Не прислал фото</h3></div>
+      <p class="cap">Главный отвал всей воронки. Причина почти всегда одна из двух:
+        не хочет отдавать фото ребёнка или лень искать подходящее.</p>
+      <div class="step"><div class="when">1 МИНУТА</div><div class="say">
+        <p>Подойдёт любое фото с телефона, специально снимать не нужно.</p>
+        <p>Оно нужно только для вашего мультика. Никому не передаём, нигде не показываем,
+          через 30 дней удаляем.</p></div></div>
+      <div class="step"><div class="when">40 МИНУТ</div><div class="say">
+        <p>Если сомневаетесь, подойдёт ли — пришлите какое есть, я сразу скажу.</p></div></div>
+      <div class="step"><div class="when">3 ЧАСА</div><div class="say">
+        <p>Могу показать на чужом примере, как из обычного фото получается герой. Прислать?</p>
+        <em>ПАРА «ФОТО → ПЕРСОНАЖ» ИЗ БИБЛИОТЕКИ, НЕ ГЕНЕРАЦИЯ</em></div></div>
+      <div class="step"><div class="when">СЛЕДУЮЩИЙ ДЕНЬ</div><div class="say">
+        <p>Всё, что вы выбрали, я сохранил — заново заполнять не придётся.</p>
+        <p>Останется только фото.</p></div></div>
+    </div>
+
+    <div class="point key">
+      <div class="hd"><span class="lt">C</span><h3>Увидел кадр и молчит</h3></div>
+      <p class="cap">Самая ценная группа. Он отдал фото, дождался результата и увидел своего
+        ребёнка внутри мультика. Дальше или «беру», или что-то смутило.</p>
+      <div class="step"><div class="when">1 МИНУТА</div><div class="say">
+        <p>Что скажете?</p>
+        <p>Если что-то не так — скажите что именно, переделаю без доплаты.</p></div></div>
+      <div class="step"><div class="when">40 МИНУТ</div><div class="say">
+        <p>Оживил кадр на пару секунд, чтобы было понятнее, как это будет двигаться.</p>
+        <em>ЕДИНСТВЕННОЕ МЕСТО, ГДЕ ТРАТИМ ГЕНЕРАЦИЮ НА ОТКАЗНИКА</em></div></div>
+      <div class="step"><div class="when">3 ЧАСА</div><div class="say">
+        <p>К какой дате нужно? Скажу, успеваем спокойно или лучше взять срочный.</p></div></div>
+      <div class="step"><div class="when">СЛЕДУЮЩИЙ ДЕНЬ</div><div class="say">
+        <p>Кадр сохранил, он никуда не денется.</p>
+        <p>Скажете — доделаю до полного мультика.</p></div></div>
+    </div>
+
+    <div class="point">
+      <div class="hd"><span class="lt">D</span><h3>Узнал условия и молчит</h3></div>
+      <p class="cap">Увидел, что входит и сколько ждать. Молчание здесь — почти всегда сомнение
+        в результате, а не в деньгах.</p>
+      <div class="step"><div class="when">1 МИНУТА</div><div class="say">
+        <p>Если что-то осталось непонятным — спрашивайте, отвечу.</p></div></div>
+      <div class="step"><div class="when">40 МИНУТ</div><div class="say">
+        <p>Чаще всего спрашивают, будет ли похож. Вот два примера: слева фото,
+          справа что получилось.</p>
+        <em>ГОТОВЫЕ ПАРЫ ИЗ БИБЛИОТЕКИ</em></div></div>
+      <div class="step"><div class="when">3 ЧАСА</div><div class="say">
+        <p>Если дело в дате — скажите, к какому числу нужно.</p></div></div>
+      <div class="step"><div class="when">СЛЕДУЮЩИЙ ДЕНЬ</div><div class="say">
+        <p>Оставлю всё как есть. Захотите вернуться — просто напишите,
+          заполнять заново ничего не нужно.</p></div></div>
+    </div>
+
+    <div class="point">
+      <div class="hd"><span class="lt">E</span><h3>Не оплатил</h3></div>
+      <p class="cap">Дошёл до ссылки и не заплатил. Первая версия всегда должна быть
+        технической: очень часто дело не в решении, а в том, что ссылка не открылась.</p>
+      <div class="step"><div class="when">1 МИНУТА</div><div class="say">
+        <p>Ссылка открылась? Если что-то не сработало — пришлю другую.</p></div></div>
+      <div class="step"><div class="when">40 МИНУТ</div><div class="say">
+        <p>Могу выставить оплату другим способом — скажите, какой удобнее.</p></div></div>
+      <div class="step"><div class="when">3 ЧАСА</div><div class="say">
+        <p>Если нужно к назначенной дате, лучше запустить сегодня — тогда успеем спокойно
+          и останется время на правку.</p></div></div>
+      <div class="step"><div class="when">СЛЕДУЮЩИЙ ДЕНЬ</div><div class="say">
+        <p>Всё готово к запуску, жду только вас. Напишите, когда будет удобно.</p></div></div>
+    </div>
+
+    <div class="call soft">
+      <span class="eyebrow">ОТДЕЛЬНЫЙ СЛУЧАЙ</span>
+      <h3>Отказался из-за результата</h3>
+      <p>Если человек прямо говорит «не похож» или «не нравится» — это не отказ,
+        а заявка на переделку. Никаких напоминаний: сразу предлагаем другой стиль
+        или другое фото, без доплаты. Причину записываем — из неё потом видно,
+        какой стиль подводит чаще других.</p>
+    </div>
+  </section>
+
+  <section id="money">
+    <span class="snum">03</span>
+    <h2>Где можно тратить генерацию, а где нельзя</h2>
+    <p class="sub">Подогрев картинкой работает, но каждый такой отказник стоит денег.
+      Правило простое: тратим только там, где человек уже вложился сам.</p>
+
+    <div class="rule">
+      <div class="yes">
+        <b>Можно — точки C и E</b>
+        <p>Он уже прислал фото и увидел кадр. До оплаты остался один шаг, и оживший
+          кадр на две секунды — самый сильный аргумент, который у нас есть.</p>
+      </div>
+      <div class="no">
+        <b>Нельзя — точки A, B, D</b>
+        <p>Он ещё ничего не отдал. Тут работают только текст и готовые примеры
+          из библиотеки — они стоят ноль и показывают то же самое.</p>
+      </div>
+    </div>
+
+    <div class="call">
+      <span class="eyebrow">ПОЧЕМУ ЭТО ВАЖНО ПОСЧИТАТЬ ДО ЗАПУСКА</span>
+      <h3>Подогрев всех подряд съест бюджет быстрее рекламы</h3>
+      <p>Отказников будет кратно больше, чем покупателей. Если генерить анимацию каждому,
+        кто замолчал, расход на подогрев легко превысит расход на трафик — при том что
+        часть этих людей не купила бы ни при каких условиях. Пока себестоимость не замерена,
+        живой подогрев включаем только на точке C и смотрим, окупается ли.</p>
+    </div>
+  </section>
+
+  <section id="stop">
+    <span class="snum">04</span>
+    <h2>Когда прекращаем и что мерим</h2>
+
+    <ul class="marks">
+      <li><i>01</i><span><b>Четыре касания и всё.</b> Пятого не будет. Дальше человек
+        либо вернётся сам, либо это уже не наш клиент.</span></li>
+      <li><i>02</i><span><b>Сказал «не надо» — прекращаем сразу.</b> Никаких «а может
+        всё-таки». Одно короткое «понял, если что — я на месте», и тишина.</span></li>
+      <li><i>03</i><span><b>Ночью не пишем.</b> Если касание попадает на ночь по его времени,
+        переносим на утро. Сообщение в три часа ночи стоит нам отписки.</span></li>
+      <li><i>04</i><span><b>Ответил — лестница обрывается.</b> Как только человек написал
+        что угодно, оставшиеся касания отменяются и дальше работает обычный сценарий.</span></li>
+    </ul>
+
+    <div class="call soft">
+      <span class="eyebrow">ЧТО СНИМАЕМ С ПЕРВОГО ЖЕ ЗАПУСКА</span>
+      <h3>Процент вернувшихся по каждой точке и по каждому касанию</h3>
+      <p>Не общий процент, а разбивку. Иначе мы не узнаем главного: какое из четырёх касаний
+        вообще работает. Вполне может оказаться, что возвращает только первое, а остальные
+        три просто раздражают — тогда лестница сокращается до одного сообщения,
+        и это тоже результат.</p>
+    </div>
+  </section>
+
+  <footer>
+    Тексты написаны под тот же тон, что и основной сценарий бота: простым языком,
+    без слов «нейросеть» и «сгенерировать». Тайминги — 1 минута, 40 минут, 3 часа,
+    следующий день — заданы исходя из того, что эмоция от креатива угасает за минуты.
+  </footer>
+</div>
