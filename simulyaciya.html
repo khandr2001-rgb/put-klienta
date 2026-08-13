@@ -1,0 +1,695 @@
+<title>Симуляция диалога — персональные мультики</title>
+<meta name="description" content="Полный прогон пути клиента: переписка с ботом от первого сообщения до оплаты, со всеми развилками и заминками.">
+<meta property="og:title" content="Симуляция диалога — путь клиента">
+<meta property="og:description" content="Как выглядит переписка клиента с ботом от рекламы до оплаты. Со всеми ветками и местами, где люди отваливаются.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#2A63A8">
+<style>
+:root{
+  --paper:#F5F5F1;
+  --card:#FFFFFF;
+  --ink:#22303C;
+  --muted:#586773;
+  --faint:#8A99A5;
+  --line:#E3E5E0;
+  --brick:#2A63A8;
+  --brick-soft:#E6EEF8;
+  --deep:#1F4C7A;
+  --teal:#A9770F;
+  --amber:#A9770F;
+  --green:#2F7A52;
+  --tier1:#E6EEF8;
+  --tier2:#C9DDF2;
+  --tier3:#FCEFC7;
+  --tier4:#F5D480;
+  --tier5:#7CBA95;
+  --tier6:#2F7A52;
+  --t1fg:#22303C; --t2fg:#1B2C3D; --t3fg:#3D3211;
+  --t4fg:#3D3211; --t5fg:#12301F; --t6fg:#FFFFFF;
+
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+
+  --wrap:1080px;
+  --pad:clamp(18px,4vw,40px);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#101519; --card:#171D23; --ink:#E8EDF1; --muted:#9DACB8; --faint:#75848F;
+    --line:#242C33; --brick:#6BA8E8; --brick-soft:#152537; --deep:#17324D;
+    --teal:#E0B054; --amber:#E0B054; --green:#6FC08E;
+    --tier1:#1A222B; --tier2:#22303F; --tier3:#3A3520; --tier4:#57492A;
+    --tier5:#2E6647; --tier6:#7FC79B;
+    --t1fg:#E8EDF1; --t2fg:#DCE8F5; --t3fg:#F0E4C2; --t4fg:#FBF1D8;
+    --t5fg:#FFFFFF; --t6fg:#101519;
+  }
+}
+:root[data-theme="dark"]{
+    --paper:#101519; --card:#171D23; --ink:#E8EDF1; --muted:#9DACB8; --faint:#75848F;
+  --line:#242C33; --brick:#6BA8E8; --brick-soft:#152537; --deep:#17324D;
+  --teal:#E0B054; --amber:#E0B054; --green:#6FC08E;
+  --tier1:#1A222B; --tier2:#22303F; --tier3:#3A3520; --tier4:#57492A;
+  --tier5:#2E6647; --tier6:#7FC79B;
+  --t1fg:#E8EDF1; --t2fg:#DCE8F5; --t3fg:#F0E4C2; --t4fg:#FBF1D8;
+  --t5fg:#FFFFFF; --t6fg:#101519;
+}
+:root[data-theme="light"]{
+  --paper:#F5F5F1;
+  --card:#FFFFFF;
+  --ink:#22303C;
+  --muted:#586773;
+  --faint:#8A99A5;
+  --line:#E3E5E0;
+  --brick:#2A63A8;
+  --brick-soft:#E6EEF8;
+  --deep:#1F4C7A;
+  --teal:#A9770F;
+  --amber:#A9770F;
+  --green:#2F7A52;
+  --tier1:#E6EEF8;
+  --tier2:#C9DDF2;
+  --tier3:#FCEFC7;
+  --tier4:#F5D480;
+  --tier5:#7CBA95;
+  --tier6:#2F7A52;
+  --t1fg:#22303C; --t2fg:#1B2C3D; --t3fg:#3D3211;
+  --t4fg:#3D3211; --t5fg:#12301F; --t6fg:#FFFFFF;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 var(--pad)}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  max-width:var(--wrap); margin:0 auto; padding:11px var(--pad);
+  display:flex; align-items:center; gap:22px;
+}
+.brand{font-weight:800; letter-spacing:-.02em; font-size:15px; white-space:nowrap}
+.nav-links{
+  display:flex; gap:16px; overflow-x:auto; scrollbar-width:none;
+  border-left:1px solid var(--line); padding-left:22px;
+}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{
+  font-family:var(--mono); font-size:12px; letter-spacing:.02em;
+  color:var(--muted); text-decoration:none; white-space:nowrap; padding:3px 0;
+  border-bottom:1.5px solid transparent;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.on{color:var(--brick); border-bottom-color:var(--brick)}
+.nav-links a:focus-visible{outline:2px solid var(--brick); outline-offset:3px; border-radius:2px}
+.nav-links a i{font-style:normal; color:var(--faint); margin-right:5px}
+.nav-links a.on i{color:var(--brick)}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(48px,9vw,96px) 0 clamp(28px,5vw,44px)}
+.pill{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
+  color:var(--brick); border:1px solid color-mix(in srgb, var(--brick) 32%, transparent);
+  background:var(--brick-soft); border-radius:100px; padding:7px 15px;
+}
+.pill b{width:6px; height:6px; border-radius:50%; background:var(--brick); display:block}
+h1{
+  font-size:clamp(34px,6.2vw,62px); line-height:1.04; font-weight:800;
+  letter-spacing:-.035em; margin:26px 0 0; text-wrap:balance;
+}
+h1 em{font-style:normal; color:var(--brick); display:block}
+.lede{
+  font-size:clamp(17px,2.1vw,21px); line-height:1.55; color:var(--muted);
+  max-width:62ch; margin:24px 0 0;
+}
+
+/* ---------- stats ---------- */
+.stats{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:14px; margin:clamp(32px,5vw,52px) 0 0;
+}
+.stat{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:22px 22px 20px;
+}
+.stat b{
+  display:block; font-size:38px; font-weight:800; letter-spacing:-.03em;
+  line-height:1; font-variant-numeric:tabular-nums;
+}
+.stat span{display:block; margin-top:12px; font-size:14px; color:var(--muted); line-height:1.45}
+.s1 b{color:var(--brick)} .s2 b{color:var(--amber)} .s3 b{color:var(--green)} .s4 b{color:var(--brick)}
+
+/* ---------- sections ---------- */
+section{padding:clamp(46px,7vw,78px) 0 0}
+.snum{
+  font-family:var(--mono); font-size:12px; letter-spacing:.16em;
+  color:var(--faint); display:block; margin-bottom:10px;
+}
+h2{
+  font-size:clamp(25px,3.6vw,36px); font-weight:800; letter-spacing:-.028em;
+  line-height:1.14; margin:0; text-wrap:balance;
+}
+.sub{color:var(--muted); max-width:66ch; margin:14px 0 0; font-size:16px}
+.blk{margin-top:26px}
+
+.eyebrow{
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+  color:var(--faint); display:block; margin-bottom:7px;
+}
+
+/* cards */
+.grid{display:grid; gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:16px; padding:20px 21px;
+}
+.card h3{margin:0 0 8px; font-size:17.5px; font-weight:700; letter-spacing:-.015em}
+.card p{margin:0; color:var(--muted); font-size:14.6px; line-height:1.55}
+.card p + p{margin-top:9px}
+
+/* stages */
+.funnel{display:flex; flex-direction:column; align-items:center; gap:4px; margin-top:26px}
+.tier{
+  border-radius:10px; padding:9px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  flex-wrap:wrap;
+}
+.tier .tn{font-size:14px; font-weight:700; letter-spacing:-.01em}
+.tier .ts{font-size:12.5px; opacity:.72; text-align:right; white-space:nowrap}
+.tier .ts u{text-decoration:none; font-weight:700; opacity:1}
+.f1{background:var(--tier1); color:var(--t1fg)}
+.f2{background:var(--tier2); color:var(--t2fg)}
+.f3{background:var(--tier3); color:var(--t3fg)}
+.f4{background:var(--tier4); color:var(--t4fg)}
+.f5{background:var(--tier5); color:var(--t5fg)}
+.f6{background:var(--tier6); color:var(--t6fg)}
+.tier .tn i{font-style:normal; opacity:.55; margin-right:11px; font-size:11.5px}
+.tier .ts.k{opacity:1; font-weight:700}
+.legend{display:flex; gap:5px; margin-top:14px; flex-wrap:wrap}
+.legend span{flex:1 1 auto; min-width:104px; text-align:center; padding:5px 8px; border-radius:8px;
+  font-family:var(--mono); font-size:10px; letter-spacing:.05em; font-weight:700; white-space:nowrap}
+@media(max-width:720px){
+  .tier{width:100%!important; flex-direction:column; align-items:flex-start; gap:4px}
+  .tier .ts{text-align:left}
+}
+.fnote{
+  margin-top:18px; font-size:14px; color:var(--muted);
+  display:flex; gap:10px; align-items:flex-start;
+}
+.fnote b{
+  flex:none; width:9px; height:9px; border-radius:50%; background:var(--brick);
+  margin-top:7px;
+}
+
+/* detailed stages */
+.sblock{margin-top:34px}
+.bhead{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; color:var(--faint);
+  padding-bottom:10px;
+}
+.bhead u{text-decoration:none; width:10px; height:10px; border-radius:3px; display:block}
+.bh1 u{background:var(--tier1)} .bh2 u{background:var(--tier2)} .bh3 u{background:var(--tier3)}
+.bh4 u{background:var(--tier4)} .bh5 u{background:var(--tier5)} .bh6 u{background:var(--tier6)}
+.stage{
+  display:grid; grid-template-columns:220px 1fr; gap:20px;
+  padding:17px 0; border-top:1px solid var(--line);
+}
+.stage.key{border-top-color:color-mix(in srgb, var(--brick) 45%, var(--line))}
+.stage .lhs{display:flex; gap:11px; align-items:flex-start}
+.stage .num{
+  font-family:var(--mono); font-size:12px; font-weight:700; flex:none;
+  width:25px; height:25px; border-radius:7px; display:grid; place-items:center;
+  background:var(--line); color:var(--muted); margin-top:1px;
+}
+.stage.key .num{background:var(--brick); color:#fff}
+.stage .nm{font-size:16.5px; font-weight:700; letter-spacing:-.015em; line-height:1.3}
+.stage .nm i{
+  display:block; font-style:normal; font-family:var(--mono); font-size:10.5px;
+  letter-spacing:.12em; color:var(--brick); margin-top:4px;
+}
+.stage .rhs{display:grid; gap:9px}
+.f{display:grid; grid-template-columns:132px 1fr; gap:14px; font-size:14.6px; line-height:1.5}
+.f b{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; font-weight:500;
+  color:var(--faint); padding-top:3px;
+}
+.f span{color:var(--muted)}
+.f.loss span{color:var(--amber)}
+@media(max-width:760px){
+  .stage{grid-template-columns:1fr; gap:12px}
+  .f{grid-template-columns:1fr; gap:2px}
+  .f b{padding-top:0}
+}
+
+/* callout */
+.call{
+  border-radius:16px; padding:22px 24px; margin-top:22px;
+  background:var(--deep); color:#F2F7F7;
+}
+.call .eyebrow{color:var(--brick)}
+.call h3{margin:0 0 9px; font-size:19px; font-weight:700; letter-spacing:-.02em}
+.call p{margin:0; font-size:15px; line-height:1.58; opacity:.86}
+.call.soft{background:var(--brick-soft); color:var(--ink)}
+.call.soft p{opacity:1; color:var(--muted)}
+
+/* quote */
+.quote{
+  margin:22px 0 0; padding:0 0 0 20px; border-left:3px solid var(--brick);
+  font-size:19px; line-height:1.5; letter-spacing:-.012em;
+}
+.quote span{display:block; margin-top:9px; font-family:var(--mono);
+  font-size:11.5px; letter-spacing:.13em; color:var(--faint)}
+
+/* chat */
+.chat{display:flex; flex-direction:column; gap:12px; margin-top:22px}
+.step{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:19px 21px}
+.step .hd{display:flex; align-items:center; gap:11px; margin-bottom:12px}
+.step .no{
+  font-family:var(--mono); font-size:12.5px; font-weight:700;
+  width:27px; height:27px; border-radius:8px; flex:none;
+  display:grid; place-items:center; background:var(--deep); color:#F2F7F7;
+}
+.step.hot .no{background:var(--brick); color:#fff}
+.step .hd b{font-size:16.5px; letter-spacing:-.015em}
+.bub{
+  background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:13px 15px; font-size:15px; line-height:1.55;
+}
+.bub p{margin:0}
+.bub p + p{margin-top:7px}
+.step .why{margin:11px 0 0; font-size:14px; color:var(--muted)}
+.step .why em{font-style:normal; font-family:var(--mono); font-size:10.5px;
+  letter-spacing:.13em; color:var(--brick); margin-right:8px}
+
+/* table */
+.tbl{overflow-x:auto; margin-top:22px; border:1px solid var(--line);
+  border-radius:14px; background:var(--card)}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:14.5px}
+th{
+  text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+  color:var(--faint); font-weight:500; padding:13px 16px;
+  border-bottom:1px solid var(--line); white-space:nowrap;
+}
+td{padding:12px 16px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--muted)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink); font-weight:600; white-space:nowrap}
+
+/* lists */
+.marks{list-style:none; padding:0; margin:18px 0 0; display:flex;
+  flex-direction:column; gap:11px}
+.marks li{display:flex; gap:12px; font-size:15px; line-height:1.55; color:var(--muted)}
+.marks li i{
+  font-style:normal; font-family:var(--mono); font-weight:700; font-size:14px;
+  flex:none; width:20px; color:var(--brick);
+}
+.marks.ok li i{color:var(--green)}
+.marks.warn li i{color:var(--amber)}
+.marks li b{color:var(--ink); font-weight:650}
+
+/* tariff */
+.tar{border-radius:16px; padding:21px 22px; border:1px solid var(--line); background:var(--card)}
+.tar.hot{background:var(--deep); border-color:var(--deep); color:#F2F7F7}
+.tar .eyebrow{color:var(--faint)}
+.tar.hot .eyebrow{color:var(--brick)}
+.tar h3{margin:6px 0 10px; font-size:19px; font-weight:750; letter-spacing:-.02em}
+.tar p{margin:0; font-size:14.5px; color:var(--muted); line-height:1.55}
+.tar.hot p{color:color-mix(in srgb, #F2F7F7 78%, transparent)}
+
+/* decisions */
+.dec{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); margin-top:24px}
+.dec div{display:flex; gap:13px; align-items:flex-start}
+.dec .n{
+  font-family:var(--mono); font-size:12px; font-weight:700; flex:none;
+  width:25px; height:25px; border-radius:50%; display:grid; place-items:center;
+  background:var(--brick); color:#fff; margin-top:2px;
+}
+.dec b{display:block; font-size:16px; letter-spacing:-.015em}
+.dec span{display:block; font-size:14.4px; color:var(--muted); margin-top:3px; line-height:1.5}
+
+footer{
+  margin-top:clamp(56px,8vw,92px); padding:26px 0 46px;
+  border-top:1px solid var(--line); color:var(--faint); font-size:13.5px;
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style><style>
+.dlg{display:flex; flex-direction:column; gap:9px; margin-top:22px}
+.msg{max-width:75%; padding:11px 15px; border-radius:15px; font-size:15px; line-height:1.5}
+.msg.bot{background:var(--card); border:1px solid var(--line); border-bottom-left-radius:5px;
+  align-self:flex-start}
+.msg.usr{background:var(--brick); color:#fff; border-bottom-right-radius:5px; align-self:flex-end}
+.msg p{margin:0} .msg p + p{margin-top:6px}
+.msg .att{display:inline-flex; align-items:center; gap:8px; font-size:13px; opacity:.85;
+  font-family:var(--mono)}
+.btns{display:flex; flex-wrap:wrap; gap:6px; align-self:flex-start; max-width:78%; margin-top:-3px}
+.btns span{border:1px solid color-mix(in srgb, var(--brick) 45%, transparent);
+  color:var(--brick); border-radius:100px; padding:5px 13px; font-size:13px; font-weight:600}
+.btns span.pick{background:var(--brick); color:#fff; border-color:var(--brick)}
+.note{align-self:center; max-width:88%; text-align:center; font-size:13px; color:var(--faint);
+  font-style:italic; padding:6px 0}
+.tick{align-self:center; font-family:var(--mono); font-size:10.5px; letter-spacing:.13em;
+  color:var(--faint); background:var(--brick-soft); border-radius:100px; padding:4px 14px;
+  margin:12px 0 4px}
+.why2{align-self:flex-start; max-width:82%; font-size:13.5px; color:var(--muted);
+  border-left:2px solid var(--line); padding:2px 0 2px 13px; margin:2px 0 4px}
+.why2 em{font-style:normal; font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+  color:var(--brick); margin-right:8px; font-weight:700}
+.gap{color:var(--amber); font-weight:700}
+.branch{background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:19px 21px; margin-top:14px}
+.branch h3{margin:0 0 4px; font-size:17px; font-weight:700; letter-spacing:-.015em}
+.branch .cap{font-size:13.5px; color:var(--muted); margin:0 0 14px}
+.branch .dlg{margin-top:0}
+.branch .msg{max-width:88%}
+.back{display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12px;
+  color:var(--brick); text-decoration:none; margin-top:6px}
+.back:hover{text-decoration:underline}
+</style>
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand">Персональные мультики</div>
+    <div class="nav-links">
+      <a href="/"><i>←</i>Путь клиента</a>
+      <a href="#run"><i>01</i>Полный прогон</a>
+      <a href="#branches"><i>02</i>Развилки</a>
+      <a href="#out"><i>03</i>Что показал прогон</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="pill"><b></b>СИМУЛЯЦИЯ</span>
+    <h1>Как это выглядит<em>глазами клиента</em></h1>
+    <p class="lede">Один человек проходит весь путь целиком — от рекламы в ленте до оплаты
+      и просьбы прислать реакцию. С заминками, вопросами и неудачным фото, потому что
+      без них симуляция бесполезна.</p>
+
+    <div class="call soft">
+      <span class="eyebrow">ЧЕГО ЗДЕСЬ НЕТ</span>
+      <h3>Цены и сроков</h3>
+      <p>Себестоимость не замерена, поэтому в местах, где бот называет цену или срок,
+        стоит заглушка вида <span class="gap">[ЦЕНА]</span>. Всё остальное — готовые тексты,
+        их можно отдавать в разработку как есть.</p>
+    </div>
+  </header>
+
+  <section id="run">
+    <span class="snum">01</span>
+    <h2>Полный прогон</h2>
+    <p class="sub">Ольга, 34 года. Дочь Ева, 4 года, день рождения через десять дней.
+      Instagram листает вечером с телефона, про нейросети не слышала.</p>
+
+    <div class="dlg">
+
+      <div class="tick">ЭТАПЫ 1–3 · РЕКЛАМА И САЙТ</div>
+      <p class="note">В ленте видит ролик: девочка смотрит на экран, где она сама верхом
+        на драконе, и кричит «мама, это я!». Мама рядом плачет. Ольга досматривает до конца
+        и переходит по ссылке.</p>
+      <p class="note">На сайте пролистывает четыре экрана: примеры мультиков, реакции детей,
+        как это работает. Нажимает «Посмотреть, как получится».</p>
+
+      <div class="tick">ЭТАП 4 · ОТКРЫЛА БОТА</div>
+      <div class="msg usr"><p>/start</p></div>
+      <div class="msg bot">
+        <p>Здравствуйте!</p>
+        <p>Сейчас за пару минут покажу, как ваш ребёнок будет выглядеть в мультике.
+          Платить ничего не нужно.</p>
+        <p>Для кого делаем мультик?</p>
+      </div>
+      <div class="btns">
+        <span class="pick">Для ребёнка</span><span>Для любимого человека</span>
+        <span>Ждём малыша</span><span>Для родителей</span><span>Другой повод</span>
+      </div>
+
+      <div class="tick">ЭТАП 5–6 · ПОВОД, СТИЛЬ, СЮЖЕТ</div>
+      <div class="msg usr"><p>Для ребёнка</p></div>
+      <div class="msg bot">
+        <p>Отлично. В каком мире будет происходить история?</p>
+        <p><span class="att">🖼 четыре картинки-образца стилей</span></p>
+      </div>
+      <div class="btns">
+        <span class="pick">Сказка</span><span>Супергерои</span><span>Аниме</span>
+        <span>Объёмный мультфильм</span><span>Свой стиль</span>
+      </div>
+      <div class="msg usr"><p>Сказка</p></div>
+      <div class="msg bot"><p>Хороший выбор. А что происходит в мультике?</p></div>
+      <div class="btns">
+        <span class="pick">Сражается с драконом</span><span>Ищет сокровища</span>
+        <span>Спасает друга</span><span>Становится супергероем</span><span>Свой сюжет</span>
+      </div>
+      <p class="why2"><em>ЛОГИКА</em>Три клика подряд, ни одного поля ввода. К этому моменту
+        человек вложил полминуты и три решения — бросить уже психологически дороже,
+        чем продолжить.</p>
+
+      <div class="tick">ЭТАП 7 · ФОТО — ГЛАВНЫЙ БАРЬЕР</div>
+      <div class="msg usr"><p>Сражается с драконом</p></div>
+      <div class="msg bot">
+        <p>Теперь самое важное — фотография.</p>
+        <p>Нужно одно фото, где хорошо видно лицо. Обычное, с телефона — подойдёт.</p>
+        <p>Чтобы получилось хорошо:<br>• лицо крупно и в фокусе<br>• один человек в кадре<br>
+          • без очков и головных уборов</p>
+        <p>Фото нужно только для вашего мультика. Мы никому его не передаём и нигде
+          не показываем — только если вы сами разрешите. Через 30 дней удаляем.</p>
+      </div>
+      <div class="msg usr"><p><span class="att">📷 фото, где Ольга с Евой вдвоём</span></p></div>
+      <div class="msg bot">
+        <p>Вижу на фото нескольких человек. Пришлите фото, где только ваш ребёнок —
+          так лицо получится точнее.</p>
+      </div>
+      <div class="msg usr"><p><span class="att">📷 фото Евы крупным планом</span></p></div>
+      <p class="why2"><em>ЗАМИНКА</em>Первое фото почти всегда неудачное — люди шлют то,
+        что первым попалось в галерее. Если бот молча возьмёт его в работу, кадр выйдет
+        непохожим и мы потеряем человека на этапе 9, а не на седьмом. Отбить сразу дешевле.</p>
+
+      <div class="tick">ЭТАП 8 · АНКЕТА, ПОКА РИСУЕТСЯ КАДР</div>
+      <div class="msg bot">
+        <p>Принято, уже рисую.</p>
+        <p>Пока рисуется — как зовут ребёнка? Имя будет звучать в мультике.</p>
+      </div>
+      <div class="msg usr"><p>Ева</p></div>
+      <div class="msg bot"><p>Сколько ей лет?</p></div>
+      <div class="btns"><span>до 3</span><span class="pick">3–5</span><span>6–9</span><span>10+</span></div>
+      <div class="msg bot">
+        <p>И последнее. Что она больше всего любит? Одно-два слова — динозавры, футбол,
+          единороги, космос.</p>
+        <p>Добавлю это в историю.</p>
+      </div>
+      <div class="msg usr"><p>единороги и печенье 😅</p></div>
+      <div class="msg bot">
+        <p>Записал: единороги и печенье. Дракон точно подружится с единорогом.</p>
+      </div>
+      <p class="why2"><em>ЛОГИКА</em>Кадр рисуется всё это время в фоне. Человек не смотрит
+        в пустой экран, а отвечает на лёгкие вопросы — самый опасный отвал убран.
+        Эхо в ответ («записал: …») показывает, что её услышали.</p>
+
+      <div class="tick">ЭТАП 9 · КАДР</div>
+      <div class="msg bot">
+        <p>Готово. Вот Ева в сказочном мире:</p>
+        <p><span class="att">🖼 кадр: Ева верхом на драконе, рядом единорог</span></p>
+        <p>Это один кадр. В полном мультике Ева оживает: двигается, разговаривает,
+          у неё своя история про дракона. С музыкой и голосом — как настоящий мультфильм
+          по телевизору.</p>
+        <p>Вот так это выглядит целиком:</p>
+        <p><span class="att">🎬 пример готового мультика, 60 сек</span></p>
+      </div>
+      <div class="msg usr"><p>ой она себя узнает 😍</p></div>
+      <div class="msg bot"><p>Что дальше?</p></div>
+      <div class="btns">
+        <span>Хочу такой мультик</span><span class="pick">У меня есть вопрос</span>
+        <span>Хочу другой стиль</span>
+      </div>
+
+      <div class="tick">ЭТАП 10Б · ВОПРОСЫ, НА КОТОРЫЕ БОТ ОТВЕЧАЕТ САМ</div>
+      <div class="msg usr"><p>У меня есть вопрос</p></div>
+      <div class="msg bot"><p>Конечно. Что вас интересует?</p></div>
+      <div class="btns">
+        <span>Сколько стоит</span><span class="pick">Когда будет готово</span>
+        <span>Будет похож на фото</span><span>А если не понравится</span>
+        <span>Как я получу мультик</span><span>Другой вопрос</span>
+      </div>
+      <div class="msg usr"><p>Когда будет готово</p></div>
+      <div class="msg bot">
+        <p>Есть обычный вариант — делаем спокойно и показываем вам на проверку перед выдачей.</p>
+        <p>И есть срочный, если дата уже близко.</p>
+        <p>А к какой дате нужно?</p>
+      </div>
+      <div class="msg usr"><p>через 10 дней день рождения</p></div>
+      <div class="msg bot">
+        <p>Успеваем спокойно, срочный тариф не нужен.</p>
+        <p>Сделаем за <span class="gap">[СРОК]</span> и покажем на проверку, останется ещё запас.</p>
+      </div>
+      <div class="msg usr"><p>а сколько стоит?</p></div>
+      <div class="msg bot">
+        <p><span class="gap">[ЦЕНА НЕ ОПРЕДЕЛЕНА — до утверждения вопрос уходит к продавцу]</span></p>
+        <p>Сейчас подключу коллегу — он расскажет по стоимости и подберёт вариант
+          под вашу задачу.</p>
+      </div>
+      <p class="why2"><em>ДЫРА</em>Единственное место, где бот пасует. Пока цены нет,
+        каждый такой клиент забирает время живого продавца — а спрашивать про цену будут почти все.
+        Это первое, что нужно закрыть после замера себестоимости.</p>
+
+      <div class="tick">ЭТАПЫ 11–12 · ОФФЕР И ОПЛАТА</div>
+      <div class="msg bot">
+        <p>Мультик про Еву — <span class="gap">[ЦЕНА]</span>.</p>
+        <p>Это минута: своя история про дракона и единорога, музыка, голос, Ева в главной роли.</p>
+        <p>Одна правка без доплаты — если что-то захотите поменять, переделаем.</p>
+        <p>Оплатить можно прямо здесь:</p>
+        <p><span class="att">🔗 ссылка на оплату</span></p>
+      </div>
+      <div class="msg usr"><p><span class="att">✅ оплачено</span></p></div>
+      <div class="msg bot">
+        <p>Оплата получена, беру в работу.</p>
+        <p>Напишу сюда же, как будет готово. Ничего ждать и проверять не нужно — я сам вернусь.</p>
+      </div>
+
+      <div class="tick">ЭТАП 13 · ВЫДАЧА И АПСЕЛЛ</div>
+      <div class="msg bot">
+        <p>Готово! Вот мультик про Еву:</p>
+        <p><span class="att">🎬 mult-eva.mp4 · 58 сек · 16:9</span></p>
+        <p>Можно показать с телефона, отправить родным или включить на телевизоре —
+          он горизонтальный, специально под большой экран.</p>
+        <p>Если что-то захотите поправить — скажите, одна правка входит.</p>
+      </div>
+      <div class="msg usr"><p>Всё супер!! спасибо огромное</p></div>
+      <div class="msg bot">
+        <p>Рад, что понравилось.</p>
+        <p>Хотите вертикальную версию под сторис? Из тех же сцен, доплата
+          <span class="gap">[ЦЕНА ДОП]</span> — многие ставят её в сторис в день рождения.</p>
+      </div>
+      <p class="why2"><em>ЛОГИКА</em>Апселл строго после «всё супер», не раньше. Предложить
+        до того, как человек увидел результат — значит получить «нет» и подпортить момент.</p>
+
+      <div class="tick">ЭТАП 14 · РЕАКЦИЯ — ЧЕРЕЗ ДЕНЬ ПОСЛЕ ПРАЗДНИКА</div>
+      <div class="msg bot">
+        <p>Как прошёл день рождения? Ева увидела мультик?</p>
+      </div>
+      <div class="msg usr"><p>она визжала 😂 смотрели раз десять</p></div>
+      <div class="msg bot">
+        <p>Это лучшее, что можно услышать.</p>
+        <p>Просьба: если снимали её реакцию — пришлите видео. Мы показываем такие моменты
+          другим родителям, и за это дам скидку на следующий мультик.</p>
+      </div>
+      <div class="msg usr"><p><span class="att">🎬 видео: Ева смотрит на экран и визжит</span></p></div>
+      <p class="why2"><em>ЗАМЫКАНИЕ</em>Это видео уходит в этап 1 — становится креативом,
+        который приведёт следующую Ольгу. Единственный источник рекламных материалов,
+        который со временем дешевеет.</p>
+
+    </div>
+  </section>
+
+  <section id="branches">
+    <span class="snum">02</span>
+    <h2>Развилки: где всё идёт не так</h2>
+    <p class="sub">Прогон выше — удачный. Ниже четыре ситуации, которые случатся
+      с остальными, и что бот отвечает в каждой.</p>
+
+    <div class="branch">
+      <h3>Просит Человека-паука</h3>
+      <p class="cap">Самый частый запрос в нише. Возникает на этапе 6, в ветке «свой сюжет».</p>
+      <div class="dlg">
+        <div class="msg usr"><p>а можно чтобы он был человеком пауком</p></div>
+        <div class="msg bot">
+          <p>Известных героев из мультфильмов использовать не можем — на них авторские права.</p>
+          <p>Но сделаю очень похожего по духу: своего супергероя в красно-синем костюме,
+            который лазает по стенам. Получится не хуже.</p>
+        </div>
+        <div class="btns"><span class="pick">Давайте</span><span>Выберу из готовых</span></div>
+      </div>
+      <p class="why2"><em>ПОЧЕМУ ТАК</em>Отказ без замены = потерянный лид. Согласие =
+        мы продаём чужого персонажа за деньги. Единственный рабочий ответ — отказать и тут же
+        дать равноценное.</p>
+    </div>
+
+    <div class="branch">
+      <h3>Кадр не понравился</h3>
+      <p class="cap">Этап 10. Без этой кнопки человек просто молча уходит, и мы не узнаём почему.</p>
+      <div class="dlg">
+        <div class="msg usr"><p>что-то не очень похожа</p></div>
+        <div class="msg bot">
+          <p>Понял. Давайте попробуем другой стиль — в объёмном мультфильме лица получаются
+            заметно точнее.</p>
+          <p>Перерисую без доплаты.</p>
+        </div>
+        <div class="btns"><span class="pick">Давайте объёмный</span><span>Пришлю другое фото</span></div>
+      </div>
+      <p class="why2"><em>ПОЧЕМУ ТАК</em>Не спорим и не оправдываемся. Одна бесплатная
+        перерисовка дешевле потерянного лида, а причина отказа попадает в статистику.</p>
+    </div>
+
+    <div class="branch">
+      <h3>Замолчал после кадра</h3>
+      <p class="cap">Самая ценная группа для возврата: кадр уже видел, значит интерес был.</p>
+      <div class="dlg">
+        <p class="note">Через час молчания</p>
+        <div class="msg bot"><p>Ева получилась хорошо. Показать, как она оживёт в мультике?</p></div>
+        <p class="note">Через сутки, если снова тишина</p>
+        <div class="msg bot"><p>Если хотели к какой-то дате — скажите, к какой. Успеем.</p></div>
+      </div>
+      <p class="why2"><em>ПОЧЕМУ ТАК</em>Второе касание про дату одновременно возвращает
+        в диалог и открывает продажу срочного тарифа. Больше двух касаний не делаем.</p>
+    </div>
+
+    <div class="branch">
+      <h3>«А если не понравится»</h3>
+      <p class="cap">Этап 10Б. Ответ намеренно не дописан — это решение команды, а не моё.</p>
+      <div class="dlg">
+        <div class="msg usr"><p>А если не понравится результат?</p></div>
+        <div class="msg bot">
+          <p>Правки делаем — поменяем сюжет, стиль, любую сцену.</p>
+          <p>Перед тем как отдать готовый мультик, я покажу его вам на проверку.</p>
+          <p><span class="gap">[ЗДЕСЬ — решение по возвратам и числу правок без доплаты]</span></p>
+        </div>
+      </div>
+      <p class="why2"><em>ПОЧЕМУ ТАК</em>Обещание в боте — это обязательство. Пока команда
+        не решила, возвращаем деньги или перегенерируем, вписывать сюда формулировку нельзя.
+        И не пишем «таких случаев не было» — заказов пока нет вообще.</p>
+    </div>
+  </section>
+
+  <section id="out">
+    <span class="snum">03</span>
+    <h2>Что показал прогон</h2>
+    <p class="sub">Три вещи, которые видно только когда проходишь путь целиком,
+      а не смотришь на схему.</p>
+
+    <ul class="marks">
+      <li><i>01</i><span><b>Первое фото почти всегда негодное.</b> Люди шлют то, что первым
+        попалось — селфи вдвоём, снимок со спины. Проверка на входе обязательна, иначе брак
+        всплывёт на этапе 9, когда человек уже ждал результат.</span></li>
+      <li><i>02</i><span><b>Вопрос про цену прилетает раньше, чем мы готовы.</b> В прогоне
+        он возник ещё до оффера, из ветки про сроки. Пока цены нет, бот на нём ломается
+        и отдаёт человека продавцу — а спрашивать будут почти все.</span></li>
+      <li><i>03</i><span><b>Разговор про дату продаёт сам.</b> «К какой дате нужно?» —
+        единственный вопрос, после которого человек сам называет срочность. Его стоит задавать
+        раньше, не дожидаясь ветки вопросов.</span></li>
+    </ul>
+
+    <div class="call">
+      <span class="eyebrow">ЧТО СДЕЛАТЬ ПО ИТОГАМ ПРОГОНА</span>
+      <h3>Перенести вопрос про дату на этап 5</h3>
+      <p>Сейчас он спрятан в ветке «когда будет готово», куда доходят не все. Если спросить
+        про повод и дату сразу, мы получим и сегментацию, и повод для срочного тарифа
+        со всех клиентов, а не с тех, кто дошёл до вопросов.</p>
+    </div>
+
+    <a class="back" href="/">← Вернуться к разбору пути клиента</a>
+  </section>
+
+  <footer>
+    Симуляция собрана по дословному сценарию бота. Тексты бота — рабочие,
+    их можно отдавать в разработку. Реплики клиента написаны по типовому поведению
+    целевой аудитории, это не запись реального диалога.
+  </footer>
+</div>
