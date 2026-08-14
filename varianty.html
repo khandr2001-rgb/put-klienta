@@ -1,0 +1,530 @@
+<title>Три варианта пути — что сравнивали</title>
+<meta name="description" content="Три варианта одного пути клиента: где стоит квиз и в какой момент человек попадает в переписку. Что выбрали и почему.">
+<meta property="og:title" content="Три варианта пути — что сравнивали">
+<meta property="og:description" content="Три варианта одного пути клиента и разбор, почему выбран тот, что запускаем.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#2A63A8">
+<style>
+:root{
+  --paper:#F5F5F1;
+  --card:#FFFFFF;
+  --ink:#22303C;
+  --muted:#586773;
+  --faint:#8A99A5;
+  --line:#E3E5E0;
+  --brick:#2A63A8;
+  --brick-soft:#E6EEF8;
+  --deep:#1F4C7A;
+  --teal:#A9770F;
+  --amber:#A9770F;
+  --green:#2F7A52;
+  --tier1:#E6EEF8;
+  --tier2:#C9DDF2;
+  --tier3:#FCEFC7;
+  --tier4:#F5D480;
+  --tier5:#7CBA95;
+  --tier6:#2F7A52;
+  --t1fg:#22303C; --t2fg:#1B2C3D; --t3fg:#3D3211;
+  --t4fg:#3D3211; --t5fg:#12301F; --t6fg:#FFFFFF;
+
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+
+  --wrap:1080px;
+  --pad:clamp(18px,4vw,40px);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#101519; --card:#171D23; --ink:#E8EDF1; --muted:#9DACB8; --faint:#75848F;
+    --line:#242C33; --brick:#6BA8E8; --brick-soft:#152537; --deep:#17324D;
+    --teal:#E0B054; --amber:#E0B054; --green:#6FC08E;
+    --tier1:#1A222B; --tier2:#22303F; --tier3:#3A3520; --tier4:#57492A;
+    --tier5:#2E6647; --tier6:#7FC79B;
+    --t1fg:#E8EDF1; --t2fg:#DCE8F5; --t3fg:#F0E4C2; --t4fg:#FBF1D8;
+    --t5fg:#FFFFFF; --t6fg:#101519;
+  }
+}
+:root[data-theme="dark"]{
+    --paper:#101519; --card:#171D23; --ink:#E8EDF1; --muted:#9DACB8; --faint:#75848F;
+  --line:#242C33; --brick:#6BA8E8; --brick-soft:#152537; --deep:#17324D;
+  --teal:#E0B054; --amber:#E0B054; --green:#6FC08E;
+  --tier1:#1A222B; --tier2:#22303F; --tier3:#3A3520; --tier4:#57492A;
+  --tier5:#2E6647; --tier6:#7FC79B;
+  --t1fg:#E8EDF1; --t2fg:#DCE8F5; --t3fg:#F0E4C2; --t4fg:#FBF1D8;
+  --t5fg:#FFFFFF; --t6fg:#101519;
+}
+:root[data-theme="light"]{
+  --paper:#F5F5F1;
+  --card:#FFFFFF;
+  --ink:#22303C;
+  --muted:#586773;
+  --faint:#8A99A5;
+  --line:#E3E5E0;
+  --brick:#2A63A8;
+  --brick-soft:#E6EEF8;
+  --deep:#1F4C7A;
+  --teal:#A9770F;
+  --amber:#A9770F;
+  --green:#2F7A52;
+  --tier1:#E6EEF8;
+  --tier2:#C9DDF2;
+  --tier3:#FCEFC7;
+  --tier4:#F5D480;
+  --tier5:#7CBA95;
+  --tier6:#2F7A52;
+  --t1fg:#22303C; --t2fg:#1B2C3D; --t3fg:#3D3211;
+  --t4fg:#3D3211; --t5fg:#12301F; --t6fg:#FFFFFF;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 var(--pad)}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{
+  max-width:var(--wrap); margin:0 auto; padding:11px var(--pad);
+  display:flex; align-items:center; gap:22px;
+}
+.brand{font-weight:800; letter-spacing:-.02em; font-size:15px; white-space:nowrap}
+.nav-links{
+  display:flex; gap:16px; overflow-x:auto; scrollbar-width:none;
+  border-left:1px solid var(--line); padding-left:22px;
+}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{
+  font-family:var(--mono); font-size:12px; letter-spacing:.02em;
+  color:var(--muted); text-decoration:none; white-space:nowrap; padding:3px 0;
+  border-bottom:1.5px solid transparent;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.on{color:var(--brick); border-bottom-color:var(--brick)}
+.nav-links a:focus-visible{outline:2px solid var(--brick); outline-offset:3px; border-radius:2px}
+.nav-links a i{font-style:normal; color:var(--faint); margin-right:5px}
+.nav-links a.on i{color:var(--brick)}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(48px,9vw,96px) 0 clamp(28px,5vw,44px)}
+.pill{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
+  color:var(--brick); border:1px solid color-mix(in srgb, var(--brick) 32%, transparent);
+  background:var(--brick-soft); border-radius:100px; padding:7px 15px;
+}
+.pill b{width:6px; height:6px; border-radius:50%; background:var(--brick); display:block}
+h1{
+  font-size:clamp(34px,6.2vw,62px); line-height:1.04; font-weight:800;
+  letter-spacing:-.035em; margin:26px 0 0; text-wrap:balance;
+}
+h1 em{font-style:normal; color:var(--brick); display:block}
+.lede{
+  font-size:clamp(17px,2.1vw,21px); line-height:1.55; color:var(--muted);
+  max-width:62ch; margin:24px 0 0;
+}
+
+/* ---------- stats ---------- */
+.stats{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:14px; margin:clamp(32px,5vw,52px) 0 0;
+}
+.stat{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:22px 22px 20px;
+}
+.stat b{
+  display:block; font-size:38px; font-weight:800; letter-spacing:-.03em;
+  line-height:1; font-variant-numeric:tabular-nums;
+}
+.stat span{display:block; margin-top:12px; font-size:14px; color:var(--muted); line-height:1.45}
+.s1 b{color:var(--brick)} .s2 b{color:var(--amber)} .s3 b{color:var(--green)} .s4 b{color:var(--brick)}
+
+/* ---------- sections ---------- */
+section{padding:clamp(46px,7vw,78px) 0 0}
+.snum{
+  font-family:var(--mono); font-size:12px; letter-spacing:.16em;
+  color:var(--faint); display:block; margin-bottom:10px;
+}
+h2{
+  font-size:clamp(25px,3.6vw,36px); font-weight:800; letter-spacing:-.028em;
+  line-height:1.14; margin:0; text-wrap:balance;
+}
+.sub{color:var(--muted); max-width:66ch; margin:14px 0 0; font-size:16px}
+.blk{margin-top:26px}
+
+.eyebrow{
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+  color:var(--faint); display:block; margin-bottom:7px;
+}
+
+/* cards */
+.grid{display:grid; gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:16px; padding:20px 21px;
+}
+.card h3{margin:0 0 8px; font-size:17.5px; font-weight:700; letter-spacing:-.015em}
+.card p{margin:0; color:var(--muted); font-size:14.6px; line-height:1.55}
+.card p + p{margin-top:9px}
+
+/* stages */
+.funnel{display:flex; flex-direction:column; align-items:center; gap:4px; margin-top:26px}
+.tier{
+  border-radius:10px; padding:9px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  flex-wrap:wrap;
+}
+.tier .tn{font-size:14px; font-weight:700; letter-spacing:-.01em}
+.tier .ts{font-size:12.5px; opacity:.72; text-align:right; white-space:nowrap}
+.tier .ts u{text-decoration:none; font-weight:700; opacity:1}
+.f1{background:var(--tier1); color:var(--t1fg)}
+.f2{background:var(--tier2); color:var(--t2fg)}
+.f3{background:var(--tier3); color:var(--t3fg)}
+.f4{background:var(--tier4); color:var(--t4fg)}
+.f5{background:var(--tier5); color:var(--t5fg)}
+.f6{background:var(--tier6); color:var(--t6fg)}
+.tier .tn i{font-style:normal; opacity:.55; margin-right:11px; font-size:11.5px}
+.tier .ts.k{opacity:1; font-weight:700}
+.legend{display:flex; gap:5px; margin-top:14px; flex-wrap:wrap}
+.legend span{flex:1 1 auto; min-width:104px; text-align:center; padding:5px 8px; border-radius:8px;
+  font-family:var(--mono); font-size:10px; letter-spacing:.05em; font-weight:700; white-space:nowrap}
+@media(max-width:720px){
+  .tier{width:100%!important; flex-direction:column; align-items:flex-start; gap:4px}
+  .tier .ts{text-align:left}
+}
+.fnote{
+  margin-top:18px; font-size:14px; color:var(--muted);
+  display:flex; gap:10px; align-items:flex-start;
+}
+.fnote b{
+  flex:none; width:9px; height:9px; border-radius:50%; background:var(--brick);
+  margin-top:7px;
+}
+
+/* detailed stages */
+.sblock{margin-top:34px}
+.bhead{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; color:var(--faint);
+  padding-bottom:10px;
+}
+.bhead u{text-decoration:none; width:10px; height:10px; border-radius:3px; display:block}
+.bh1 u{background:var(--tier1)} .bh2 u{background:var(--tier2)} .bh3 u{background:var(--tier3)}
+.bh4 u{background:var(--tier4)} .bh5 u{background:var(--tier5)} .bh6 u{background:var(--tier6)}
+.stage{
+  display:grid; grid-template-columns:220px 1fr; gap:20px;
+  padding:17px 0; border-top:1px solid var(--line);
+}
+.stage.key{border-top-color:color-mix(in srgb, var(--brick) 45%, var(--line))}
+.stage .lhs{display:flex; gap:11px; align-items:flex-start}
+.stage .num{
+  font-family:var(--mono); font-size:12px; font-weight:700; flex:none;
+  width:25px; height:25px; border-radius:7px; display:grid; place-items:center;
+  background:var(--line); color:var(--muted); margin-top:1px;
+}
+.stage.key .num{background:var(--brick); color:#fff}
+.stage .nm{font-size:16.5px; font-weight:700; letter-spacing:-.015em; line-height:1.3}
+.stage .nm i{
+  display:block; font-style:normal; font-family:var(--mono); font-size:10.5px;
+  letter-spacing:.12em; color:var(--brick); margin-top:4px;
+}
+.stage .rhs{display:grid; gap:9px}
+.f{display:grid; grid-template-columns:132px 1fr; gap:14px; font-size:14.6px; line-height:1.5}
+.f b{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; font-weight:500;
+  color:var(--faint); padding-top:3px;
+}
+.f span{color:var(--muted)}
+.f.loss span{color:var(--amber)}
+@media(max-width:760px){
+  .stage{grid-template-columns:1fr; gap:12px}
+  .f{grid-template-columns:1fr; gap:2px}
+  .f b{padding-top:0}
+}
+
+/* callout */
+.call{
+  border-radius:16px; padding:22px 24px; margin-top:22px;
+  background:var(--deep); color:#F2F7F7;
+}
+.call .eyebrow{color:var(--brick)}
+.call h3{margin:0 0 9px; font-size:19px; font-weight:700; letter-spacing:-.02em}
+.call p{margin:0; font-size:15px; line-height:1.58; opacity:.86}
+.call.soft{background:var(--brick-soft); color:var(--ink)}
+.call.soft p{opacity:1; color:var(--muted)}
+
+/* quote */
+.quote{
+  margin:22px 0 0; padding:0 0 0 20px; border-left:3px solid var(--brick);
+  font-size:19px; line-height:1.5; letter-spacing:-.012em;
+}
+.quote span{display:block; margin-top:9px; font-family:var(--mono);
+  font-size:11.5px; letter-spacing:.13em; color:var(--faint)}
+
+/* chat */
+.chat{display:flex; flex-direction:column; gap:12px; margin-top:22px}
+.step{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:19px 21px}
+.step .hd{display:flex; align-items:center; gap:11px; margin-bottom:12px}
+.step .no{
+  font-family:var(--mono); font-size:12.5px; font-weight:700;
+  width:27px; height:27px; border-radius:8px; flex:none;
+  display:grid; place-items:center; background:var(--deep); color:#F2F7F7;
+}
+.step.hot .no{background:var(--brick); color:#fff}
+.step .hd b{font-size:16.5px; letter-spacing:-.015em}
+.bub{
+  background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:13px 15px; font-size:15px; line-height:1.55;
+}
+.bub p{margin:0}
+.bub p + p{margin-top:7px}
+.step .why{margin:11px 0 0; font-size:14px; color:var(--muted)}
+.step .why em{font-style:normal; font-family:var(--mono); font-size:10.5px;
+  letter-spacing:.13em; color:var(--brick); margin-right:8px}
+
+/* table */
+.tbl{overflow-x:auto; margin-top:22px; border:1px solid var(--line);
+  border-radius:14px; background:var(--card)}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:14.5px}
+th{
+  text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.12em;
+  color:var(--faint); font-weight:500; padding:13px 16px;
+  border-bottom:1px solid var(--line); white-space:nowrap;
+}
+td{padding:12px 16px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--muted)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--ink); font-weight:600; white-space:nowrap}
+
+/* lists */
+.marks{list-style:none; padding:0; margin:18px 0 0; display:flex;
+  flex-direction:column; gap:11px}
+.marks li{display:flex; gap:12px; font-size:15px; line-height:1.55; color:var(--muted)}
+.marks li i{
+  font-style:normal; font-family:var(--mono); font-weight:700; font-size:14px;
+  flex:none; width:20px; color:var(--brick);
+}
+.marks.ok li i{color:var(--green)}
+.marks.warn li i{color:var(--amber)}
+.marks li b{color:var(--ink); font-weight:650}
+
+/* tariff */
+.tar{border-radius:16px; padding:21px 22px; border:1px solid var(--line); background:var(--card)}
+.tar.hot{background:var(--deep); border-color:var(--deep); color:#F2F7F7}
+.tar .eyebrow{color:var(--faint)}
+.tar.hot .eyebrow{color:var(--brick)}
+.tar h3{margin:6px 0 10px; font-size:19px; font-weight:750; letter-spacing:-.02em}
+.tar p{margin:0; font-size:14.5px; color:var(--muted); line-height:1.55}
+.tar.hot p{color:color-mix(in srgb, #F2F7F7 78%, transparent)}
+
+/* decisions */
+.dec{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); margin-top:24px}
+.dec div{display:flex; gap:13px; align-items:flex-start}
+.dec .n{
+  font-family:var(--mono); font-size:12px; font-weight:700; flex:none;
+  width:25px; height:25px; border-radius:50%; display:grid; place-items:center;
+  background:var(--brick); color:#fff; margin-top:2px;
+}
+.dec b{display:block; font-size:16px; letter-spacing:-.015em}
+.dec span{display:block; font-size:14.4px; color:var(--muted); margin-top:3px; line-height:1.5}
+
+footer{
+  margin-top:clamp(56px,8vw,92px); padding:26px 0 46px;
+  border-top:1px solid var(--line); color:var(--faint); font-size:13.5px;
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style><style>
+.vcols{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(292px,1fr)); margin-top:26px}
+.vcol{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:20px 20px 22px;
+  display:flex; flex-direction:column}
+.vcol.win{border-color:color-mix(in srgb, var(--brick) 45%, var(--line));
+  box-shadow:0 0 0 3px var(--brick-soft)}
+.vhd{margin-bottom:16px}
+.vhd .lbl{font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--faint); display:block; margin-bottom:7px}
+.vcol.win .vhd .lbl{color:var(--brick)}
+.vhd h3{margin:0; font-size:18.5px; font-weight:750; letter-spacing:-.02em; line-height:1.25}
+.vsteps{display:flex; flex-direction:column; gap:4px}
+.vstep{border-radius:9px; padding:10px 13px; font-size:14px; font-weight:650; letter-spacing:-.01em}
+.vstep.hard{font-weight:800; text-transform:uppercase; font-size:12.5px; letter-spacing:.05em}
+.vcut{display:flex; align-items:center; gap:9px; margin:9px 0 5px; font-family:var(--mono);
+  font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--green)}
+.vcut::after{content:""; flex:1; height:2px; background:var(--green); border-radius:2px}
+.vfoot{margin-top:auto; padding-top:17px}
+.vfoot b{display:block; font-size:16.5px; letter-spacing:-.02em}
+.vfoot span{display:block; margin-top:4px; font-size:14px; color:var(--muted); line-height:1.5}
+.vfoot.a b{color:var(--amber)} .vfoot.b b{color:var(--amber)} .vfoot.c b{color:var(--green)}
+</style>
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand">Персональные мультики</div>
+    <div class="nav-links">
+      <a href="/"><i>←</i>Путь клиента</a>
+      <a href="/varianty.html" class="on"><i>→</i>Три варианта</a>
+      <a href="/simulyaciya.html"><i>→</i>Симуляция</a>
+      <a href="/followups.html"><i>→</i>Фоллоу-апы</a>
+      <a href="/prodavec.html"><i>→</i>Продавец</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="pill"><b></b>СРАВНЕНИЕ ВАРИАНТОВ</span>
+    <h1>Три варианта одного пути<em>отличаются одним: где стоит квиз и в какой момент человек попадает к нам в переписку</em></h1>
+    <p class="lede">Мы сравнивали их перед запуском. Разница не в оформлении, а в том, сколько шагов
+      человек делает там, где мы его ещё не видим, — и сколько там, где ему уже можно написать.</p>
+
+    <div class="stats">
+      <div class="stat s1"><b>5</b><span>шагов до контакта в варианте А — том, что запускаем</span></div>
+      <div class="stat s2"><b>4</b><span>шага в варианте Б: фото переносится в переписку</span></div>
+      <div class="stat s3"><b>2</b><span>шага в варианте В: сайт только приводит, всё остальное в чате</span></div>
+    </div>
+  </header>
+
+  <section id="s1">
+    <span class="snum">01</span>
+    <h2>Что сравнивали</h2>
+    <p class="sub">Зелёная черта в каждой колонке — момент, когда у нас появляется контакт.
+      Всё, что выше неё, происходит на сайте: если человек ушёл там, написать ему некому.
+      Всё, что ниже, — в переписке, оттуда отвалившегося можно догнать.</p>
+
+    <div class="vcols">
+
+      <div class="vcol win">
+        <div class="vhd"><span class="lbl">Вариант А · запускаем</span>
+          <h3>Всё на сайте, включая фото</h3></div>
+        <div class="vsteps">
+      <div class="vstep f2">Увидел рекламу</div>
+      <div class="vstep f2">Нажал на рекламу</div>
+      <div class="vstep f2">Выбрал направление</div>
+      <div class="vstep f2">Прошёл квиз</div>
+      <div class="vstep f4 hard">Загрузил фото</div>
+      <div class="vcut">Здесь у нас появляется контакт</div>
+      <div class="vstep f4">Перешёл в Telegram</div>
+      <div class="vstep f5">Оплатил</div>
+        </div>
+        <div class="vfoot a"><b>5 шагов до контакта</b>
+          <span>Самый тяжёлый шаг — фото — стоит до контакта. Кто ушёл на нём, потерян навсегда:
+            мы даже не знаем, что он был.</span></div>
+      </div>
+
+      <div class="vcol">
+        <div class="vhd"><span class="lbl">Вариант Б</span>
+          <h3>Выбор на сайте, фото в переписке</h3></div>
+        <div class="vsteps">
+      <div class="vstep f2">Увидел рекламу</div>
+      <div class="vstep f2">Нажал на рекламу</div>
+      <div class="vstep f2">Выбрал направление</div>
+      <div class="vstep f2">Прошёл квиз</div>
+      <div class="vcut">Здесь у нас появляется контакт</div>
+      <div class="vstep f4">Перешёл в Telegram</div>
+      <div class="vstep f4 hard">Прислал фото</div>
+      <div class="vstep f4">Увидел кадр</div>
+      <div class="vstep f5">Оплатил</div>
+        </div>
+        <div class="vfoot b"><b>4 шага до контакта</b>
+          <span>Барьер тот же, но стоит уже после контакта. Замолчавшему на фото
+            можно написать через час и через день.</span></div>
+      </div>
+
+      <div class="vcol">
+        <div class="vhd"><span class="lbl">Вариант В</span>
+          <h3>Сайт только приводит</h3></div>
+        <div class="vsteps">
+      <div class="vstep f2">Увидел рекламу</div>
+      <div class="vstep f2">Нажал «Показать, как это выглядит»</div>
+      <div class="vcut">Здесь у нас появляется контакт</div>
+      <div class="vstep f4">Бот уже знает направление</div>
+      <div class="vstep f4">Повод и дата</div>
+      <div class="vstep f4 hard">Прислал фото</div>
+      <div class="vstep f4">Увидел кадр</div>
+      <div class="vstep f5">Оплатил</div>
+        </div>
+        <div class="vfoot c"><b>2 шага до контакта</b>
+          <span>Фоллоу-апы работают почти со всеми, кто нажал на рекламу.
+            Но качество лида ниже: человек не отсеялся квизом.</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="s2">
+    <span class="snum">02</span>
+    <h2>Что выбрали и почему так</h2>
+    <p class="sub">Запускаем вариант А. Решение приняли не потому, что он лучший по потерям,
+      а потому, что сайт уже сделан именно так и переделывать его перед запуском дороже,
+      чем протестировать.</p>
+
+    <div class="grid g3 blk">
+      <div class="card">
+        <h3>Что мы за это получаем</h3>
+        <p>Все, кто дошёл до бота, прошли квиз целиком и отдали фото. Это полностью
+          квалифицированный человек: продавцу не надо ничего выяснять с нуля,
+          и кадр уже рисуется к моменту первой реплики.</p>
+      </div>
+      <div class="card">
+        <h3>Чем платим</h3>
+        <p>Главный отвал переезжает туда, где мы бессильны — на сайт, до контакта.
+          Мы увидим его только цифрой в аналитике: столько-то начали квиз, столько-то дошли.
+          Написать этим людям нельзя.</p>
+      </div>
+      <div class="card">
+        <h3>Что это значит для запуска</h3>
+        <p>Аналитика по шагам квиза становится обязательной. Без неё мы не узнаем,
+          на каком именно шаге теряем и стоит ли вообще двигать фото в переписку.
+          Сейчас такой аналитики нет.</p>
+      </div>
+    </div>
+
+    <div class="call soft blk">
+      <span class="eyebrow">Отдельно</span>
+      <h3>Моя рекомендация была другой — вариант В</h3>
+      <p>Каждый шаг на сайте — это потеря без возврата. В переписке потери меньше,
+        потому что есть кому написать. Четыре посадочные под направления при этом остаются,
+        они нужны для таргетинга, — убирается только квиз, а направление передаётся в бота ссылкой.
+        Это не спор с решением: вариант А запускаем как есть. Но если на тесте окажется,
+        что квиз до конца доходит малая часть, вариант В — первое, что стоит попробовать вторым.</p>
+    </div>
+
+    <p class="fnote"><b></b>Проверяется это одной цифрой: сколько людей начали квиз и сколько
+      нажали «Старт» в боте. Если разрыв большой — переносим фото в переписку.</p>
+  </section>
+
+  <section id="s3">
+    <span class="snum">03</span>
+    <h2>Одной таблицей</h2>
+    <p class="sub">Три варианта по тем признакам, которые реально меняют результат.</p>
+
+    <div class="tbl">
+      <table>
+        <thead><tr><th></th><th>Вариант А</th><th>Вариант Б</th><th>Вариант В</th></tr></thead>
+        <tbody>
+          <tr><td>Шагов до контакта</td><td><b>5</b></td><td>4</td><td>2</td></tr>
+          <tr><td>Где загружается фото</td><td>на сайте</td><td>в переписке</td><td>в переписке</td></tr>
+          <tr><td>Кому можно написать после отвала</td><td>только тем, кто дошёл до бота</td><td>всем, кто дошёл до бота</td><td>почти всем, кто нажал на рекламу</td></tr>
+          <tr><td>Качество лида в боте</td><td>максимальное</td><td>высокое</td><td>ниже — квиз не отсеивал</td></tr>
+          <tr><td>Что надо переделать на сайте</td><td>ничего</td><td>убрать шаг с фото</td><td>убрать квиз целиком</td></tr>
+          <tr><td>Главный риск</td><td>невидимый отвал на сайте</td><td>фото не присылают в чате</td><td>перегруз продавца пустыми диалогами</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    Сравнение вариантов пути клиента. Основная страница — <a href="/">путь клиента</a>,
+      прогон диалога — <a href="/simulyaciya.html">симуляция</a>,
+      что делаем с отвалившимися — <a href="/followups.html">фоллоу-апы</a>.
+  </footer>
+
+</div>
